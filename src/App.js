@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Diagram from './Diagram';
+import Graph from './Graph';
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT;
 
 function App() {
-  const [data, setData]  = useState(null);
+  const [data, setData] = useState(null);
+  const [dataLog, setDataLog] = useState([]);
 
   useEffect(fetchData, []);
 
@@ -14,6 +16,25 @@ function App() {
 
     return () => clearInterval(interval_id);
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      const newPoint = [
+        data.status.date_time,
+        data.real_time.pv_voltage,
+        data.real_time.pv_current,
+        data.real_time.pv_power,
+        data.real_time.battery_voltage,
+        data.real_time.battery_charging_current,
+        data.real_time.battery_charging_power,
+        data.real_time.load_voltage,
+        data.real_time.load_current,
+        data.real_time.load_power,
+      ];
+
+      setDataLog(log => [ ...log, newPoint ]);
+    }
+  }, [data]);
 
   if (!data) {
     return <p>Loading</p>;
@@ -106,6 +127,9 @@ function App() {
         </div>
         <div className="diagram">
           <Diagram { ...data } />
+        </div>
+        <div className="graph">
+          <Graph log={dataLog} />
         </div>
       </div>
     </div>
