@@ -1,277 +1,262 @@
 
-export default function Diagram ({ real_time, statistics, coils }) {
+export default function Diagram ({ real_time, statistics, coils, discrete }) {
 
    return (
       <svg
-         version="1.1"
-         viewBox="0 0 198.62173 119.68884"
-         height="119.68884mm"
-         width="198.62173mm">
-         <defs
-            id="defs864">
-            <marker
-               orient="auto"
-               refY="0"
-               refX="0"
-               id="marker2034"
-               style={{overflow:"visible"}}>
-               <path
-                  id="path2032"
-                  style={{fill:"#000000", fillOpacity:1, fillRule:"evenodd", stroke:"#000000", strokeWidth:0.625, strokeLinejoin:"round", strokeOpacity:1}}
-                  d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
-                  transform="matrix(-0.3,0,0,-0.3,0.69,0)" />
-            </marker>
-            <marker
-               style={{overflow:"visible"}}
-               id="marker1858"
-               refX="0"
-               refY="0"
-               orient="auto">
-               <path
-                  transform="matrix(-0.3,0,0,-0.3,0.69,0)"
-                  d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
-                  style={{fill:"#000000", fillOpacity:1, fillRule:"evenodd", stroke:"#000000", strokeWidth:0.625, strokeLinejoin:"round", strokeOpacity:1}}
-                  id="path1856" />
-            </marker>
-            <marker
-               style={{overflow:"visible"}}
-               id="Arrow2Send"
-               refX="0"
-               refY="0"
-               orient="auto">
-               <path
-                  transform="matrix(-0.3,0,0,-0.3,0.69,0)"
-                  d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
-                  style={{fill:"#000000", fillOpacity:1, fillRule:"evenodd", stroke:"#000000", strokeWidth:0.625, strokeLinejoin:"round", strokeOpacity:1}}
-                  id="path1537" />
-            </marker>
-            <marker
-               style={{overflow:"visible"}}
-               id="Arrow1Mend"
-               refX="0"
-               refY="0"
-               orient="auto">
-               <path
-                  transform="matrix(-0.4,0,0,-0.4,-4,0)"
-                  style={{fill:"#000000", fillOpacity:1, fillRule:"evenodd", stroke:"#000000", strokeWidth:"1pt", strokeOpacity:1}}
-                  d="M 0,0 5,-5 -12.5,0 5,5 Z"
-                  id="path1513" />
-            </marker>
+         xmlns="http://www.w3.org/2000/svg"
+         width={750.696}
+         height={452.367}
+         viewBox="0 0 198.622 119.689"
+       >
+         <defs>
+           <marker
+             id="prefix__c"
+             refX={0}
+             refY={0}
+             orient="auto"
+             overflow="visible"
+           >
+             <path
+               d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
+               fillRule="evenodd"
+               stroke="#000"
+               strokeWidth={0.1875}
+               strokeLinejoin="round"
+             />
+           </marker>
+           <marker
+             orient="auto"
+             refY={0}
+             refX={0}
+             id="prefix__b"
+             overflow="visible"
+           >
+             <path
+               d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
+               fillRule="evenodd"
+               stroke="#000"
+               strokeWidth={0.1875}
+               strokeLinejoin="round"
+             />
+           </marker>
+           <marker
+             orient="auto"
+             refY={0}
+             refX={0}
+             id="prefix__a"
+             overflow="visible"
+           >
+             <path
+               d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
+               fillRule="evenodd"
+               stroke="#000"
+               strokeWidth={0.1875}
+               strokeLinejoin="round"
+             />
+           </marker>
          </defs>
-         <g
-            transform="translate(14.737404,-5.7141349)"
-            id="layer1">
-            <g
-               id="g851"
-               transform="matrix(0.31866554,0,0.12234958,0.31866554,-10.028659,21.879474)">
-               <rect
-                  style={{fill:"#000022", fillOpacity:0.650602, stroke:"#000000", strokeWidth:1, strokeLinejoin:"bevel", strokeOpacity:0.710843}}
-                  id="rect853"
-                  width="71.815475"
-                  height="52.160713"
-                  x="34.669708"
-                  y="35.983341" />
-               <rect
-                  y="26.458332"
-                  x="43.089287"
-                  height="52.160713"
-                  width="71.815475"
-                  id="rect833"
-                  style={{fill:"#0000ff", fillOpacity:1, stroke:"#ffff00", strokeWidth:3, strokeLinejoin:"bevel", strokeMiterlimit:4, strokeOpacity:1 }} />
-               <path
-                  id="path835"
-                  d="M 60.854166,26.458333 V 78.619047"
-                  style={{fill:"none", stroke:"#ffff00", strokeWidth:3, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1 }} />
-               <path
-                  id="path837"
-                  d="M 79.22381,26.080357 V 78.430058"
-                  style={{fill:"none", stroke:"#ffff00", strokeWidth:3, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1 }} />
-               <path
-                  id="path839"
-                  d="m 97.782441,27.025298 v 51.40476"
-                  style={{fill:"none", stroke:"#ffff00", strokeWidth:3, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1 }} />
-               <path
-                  id="path841"
-                  d="M 42.522322,45.735118 H 114.90476"
-                  style={{fill:"none", stroke:"#ffff00", strokeWidth:3, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1 }} />
-               <path
-                  id="path843"
-                  d="M 43.278274,62.555057 H 115.09375"
-                  style={{fill:"none", stroke:"#ffff00", strokeWidth:3, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1 }} />
-            </g>
-            <g
-               transform="matrix(0.77114046,0,0,0.77114046,42.075477,6.2619446)"
-               id="g1475">
-               <rect
-                  style={{fill:"#cccccc", fillOpacity:0.650602, stroke:"#000000", strokeWidth:1.56054, strokeLinejoin:"bevel", strokeOpacity:0.710843}}
-                  id="rect1469"
-                  width="36.425434"
-                  height="19.881058"
-                  x="45.123528"
-                  y="31.887152" />
-               <rect
-                  style={{fill:"#008000", fillOpacity:1, stroke:"none", strokeWidth:1.56054, strokeLinejoin:"bevel", strokeOpacity:0.710843}}
-                  id="rect1471"
-                  width="22.383568"
-                  height="2.2244539"
-                  x="50.128551"
-                  y="47.319302" />
-               <circle
-                  style={{fill:"#0000ff", fillOpacity:1, stroke:"none", strokeWidth:2.10223, strokeLinejoin:"bevel", strokeOpacity:0.710843}}
-                  id="path1477"
-                  cx="73.973289"
-                  cy="40.649517"
-                  r="0.86080849" />
-               <circle
-                  r="1.0394346"
-                  cy="37.426357"
-                  cx="52.418285"
-                  id="path1494"
-                  style={{fill:"#00ff00", fillOpacity:1, stroke:"none", strokeWidth:3, strokeLinejoin:"bevel", strokeOpacity:0.710843 }} />
-               <circle
-                  style={{fill:"#00ff00", fillOpacity:1, stroke:"none", strokeWidth:3, strokeLinejoin:"bevel", strokeOpacity:0.710843}}
-                  id="circle1496"
-                  cx="55.593288"
-                  cy="37.426357"
-                  r="1.0394346" />
-            </g>
-            <path
-               id="path1502"
-               d="m 38.837052,41.057663 h 29.05692"
-               style={{fill:"none", stroke:"#000000", strokeWidth:3, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1, markerEnd:"url(#Arrow2Send)" }} />
-            <path
-               id="path1854"
-               d="m 108.68714,41.057663 h 29.05709"
-               style={{fill:"none", stroke:"#000000", strokeWidth:3, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1, markerEnd:"url(#marker1858)" }} />
-            <g
-               id="g2008">
-               <ellipse
-                  style={{fill:coils.manual_control_load?"#ffff00":"#ffffff",fillOpacity:1,stroke:"#000000",strokeWidth:0.499999,strokeLinejoin:"bevel",strokeMiterlimit:4,strokeDasharray:"none",strokeOpacity:1}}
-                  id="path2164"
-                  cx="155.47987"
-                  cy="33.777435"
-                  rx="7.7174077"
-                  ry="7.1494594" />
-               <path
-                  id="rect1966"
-                  style={{fill:"none", fillOpacity:1, stroke:"#000000", strokeWidth:2.12367, strokeLinejoin:"bevel", strokeMiterlimit:4, strokeOpacity:1}}
-                  d="m 155.45614,26.77597 c -4.06065,0.0045 -7.35004,3.297649 -7.34989,7.358303 0.34178,2.746574 1.2837,3.749443 3.17324,5.821567 l 0.83496,1.087884 v 8.797772 h 6.24367 v -8.797772 l 1.2442,-1.182482 c 1.76403,-1.930339 3.22014,-2.638792 3.22017,-5.726969 1.4e-4,-4.063795 -3.29414,-7.358246 -7.35794,-7.358303 z" />
-               <path
-                  style={{fill:"none", stroke:"#000000", strokeWidth:0.849467, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1}}
-                  d="m 152.52123,48.047502 5.66951,-1.519139"
-                  id="path1972" />
-               <path
-                  id="path1974"
-                  d="m 152.52123,46.174545 5.66951,-1.51914"
-                  style={{fill:"none", stroke:"#000000", strokeWidth:0.849467, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1 }} />
-               <path
-                  style={{fill:"none", stroke:"#000000", strokeWidth:0.849467, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1}}
-                  d="m 152.52123,44.301588 5.66951,-1.51914"
-                  id="path1976" />
-               <path
-                  id="path1978"
-                  d="m 152.52123,42.803222 5.66951,-1.519139"
-                  style={{fill:"none", stroke:"#000000", strokeWidth:0.849467, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1 }} />
-               <path
-                  style={{fill:"none", stroke:"#000000", strokeWidth:"0.264583px", strokeLinecap:"butt", strokeLinejoin:"miter", strokeOpacity:1}}
-                  d="m 153.14177,40.986794 -1.74859,-6.525845"
-                  id="path1989" />
-               <path
-                  id="path1991"
-                  d="m 157.63907,40.983903 1.90489,-6.520063"
-                  style={{fill:"none", stroke:"#000000", strokeWidth:"0.276033px", strokeLinecap:"butt", strokeLinejoin:"miter", strokeOpacity:1 }} />
-               <path
-                  style={{fill:"none", stroke:"#000000", strokeWidth:"0.264583px", strokeLinecap:"butt", strokeLinejoin:"miter", strokeOpacity:1}}
-                  d="m 151.39318,34.460949 c 0.0269,0.0019 0.0831,0.03265 0.0808,0.0058 -0.009,-0.103537 -0.21863,-0.32611 -0.23623,-0.519718 -0.0437,-0.480695 0.28696,-0.979403 0.73233,-1.157553 0.16652,-0.06661 0.41154,-0.0768 0.59058,-0.118117 0.22704,-0.05239 0.23755,-0.04667 0.44885,0.04725 0.0161,0.0071 0.0364,0.0097 0.0472,0.02363 0.31116,0.400066 0.4665,0.869908 0.51972,1.370163 0.0208,0.195916 0.0176,0.393661 0.0236,0.59059 0.001,0.04438 -0.0176,0.342442 -0.0709,0.377976 -0.2052,0.136803 -0.35581,-0.169733 -0.4016,-0.307107 -0.0609,-0.182737 -0.0473,-0.219295 -0.0473,-0.401598 0,-0.715293 0.34032,-1.019236 0.99219,-1.252048 0.16463,-0.0588 0.39431,-0.120203 0.56697,-0.07087 0.19858,0.05674 0.39533,0.177427 0.47247,0.377976 0.0893,0.232108 0.28216,1.407433 -0.28349,1.181174 -0.1377,-0.05508 -0.14822,-0.108212 -0.23623,-0.236233 -0.0482,-0.07019 -0.11116,-0.133115 -0.14174,-0.212614 -0.14953,-0.388776 -0.12388,-0.772245 0.0709,-1.133927 0.052,-0.09654 0.19889,-0.156218 0.28348,-0.212612 0.0328,-0.02185 0.0587,-0.05458 0.0945,-0.07087 0.11109,-0.0505 0.3103,-0.06482 0.42522,-0.07087 0.32525,-0.01712 0.17359,0.01061 0.42522,0.0945 0.0454,0.01513 0.0989,0.0021 0.14174,0.02363 0.22137,0.110683 0.48377,0.565936 0.59059,0.779576 0.0925,0.185005 0.0954,0.421405 0.0472,0.614212 -0.004,0.01527 0.009,0.03414 0,0.04725 -0.01,0.01466 -0.0322,0.01458 -0.0472,0.02363 -0.1349,0.08094 -0.32762,0.07554 -0.42522,-0.07087 -0.37453,-0.561795 -0.29596,-0.996498 0.18899,-1.441035 0.33777,-0.309626 1.21658,-0.370134 1.5119,0.02363 0.25143,0.335241 0.29806,1.076624 0.0709,1.41741 -0.0157,0.02363 -0.0508,0.02717 -0.0709,0.04725 -0.0356,0.03565 -0.0558,0.08584 -0.0945,0.118118 -0.0121,0.01008 -0.032,-0.0038 -0.0473,0 -0.0275,0.0069 -0.0425,0.04725 -0.0709,0.04725 -0.18668,0 -0.21349,-0.315267 -0.25986,-0.496094 -0.19337,-0.754158 0.29317,-1.617721 1.06306,-1.795386 0.20128,-0.04645 0.6685,-0.06735 0.85044,0.02363 0.16697,0.08349 0.20083,0.318998 0.25986,0.496094 0.0149,0.04482 -0.008,0.09526 0,0.141743 0.008,0.04172 0.0412,0.07614 0.0472,0.118118 0.0216,0.151484 0.007,0.31868 0.0236,0.472469 0.0183,0.173881 0.06,0.345215 0.0709,0.519718 0.0147,0.235588 -0.007,0.474324 -0.0236,0.708705 -0.004,0.05338 -0.0211,0.08952 -0.0473,0.14174 -0.005,0.01 -0.0242,0.03474 -0.0236,0.02363 0.005,-0.09614 0.0253,-0.190897 0.038,-0.286345"
-                  id="path1993" />
-            </g>
-            <g
-               id="g2096">
-               <rect
-                  style={{fill:"#999999", fillOpacity:1, stroke:"#000000", strokeWidth:0.324797, strokeLinejoin:"bevel", strokeMiterlimit:4, strokeOpacity:1}}
-                  id="rect2016"
-                  width="30.08753"
-                  height="17.698545"
-                  x="75.872856"
-                  y="87.574364" />
-               <rect
-                  style={{fill:"#000000", fillOpacity:1, stroke:"#000000", strokeWidth:0.499999, strokeLinejoin:"bevel", strokeMiterlimit:4, strokeOpacity:1}}
-                  id="rect2018"
-                  width="2.4218242"
-                  height="3.102962"
-                  x="77.078239"
-                  y="84.314514" />
-               <rect
-                  y="84.314514"
-                  x="77.078239"
-                  height="3.102962"
-                  width="2.4218242"
-                  id="rect2020"
-                  style={{fill:"#000000", fillOpacity:1, stroke:"#000000", strokeWidth:0.499999, strokeLinejoin:"bevel", strokeMiterlimit:4, strokeOpacity:1 }} />
-               <rect
-                  style={{fill:"#000000", fillOpacity:1, stroke:"#000000", strokeWidth:0.499999, strokeLinejoin:"bevel", strokeMiterlimit:4, strokeOpacity:1}}
-                  id="rect2022"
-                  width="2.4218242"
-                  height="3.102962"
-                  x="101.65979"
-                  y="84.314514" />
-               <rect
-                  style={{fill:"#ffffff",fillOpacity:1,stroke:"#000000",strokeWidth:0.499999,strokeLinejoin:"bevel",strokeMiterlimit:4,strokeDasharray:"none",strokeOpacity:1}}
-                  id="rect2185"
-                  width="26.326048"
-                  height="13.76438"
-                  x="77.871483"
-                  y="89.636765" />
-               <rect
-                  style={{fill:"#00ff00",fillOpacity:1,stroke:"none",strokeWidth:0.702073,strokeLinejoin:"bevel",strokeMiterlimit:4,strokeDasharray:"none",strokeOpacity:1}}
-                  id="rect2187"
-                  width={real_time.battery_soc * 0.25896791}
-                  height="13.418155"
-                  x="78.094894"
-                  y="89.719345" />
-               <rect
-                  y="89.636765"
-                  x="77.871483"
-                  height="13.76438"
-                  width="26.326048"
-                  id="rect2189"
-                  style={{fill:"none",fillOpacity:1,stroke:"#000000",strokeWidth:0.499999,strokeLinejoin:"bevel",strokeMiterlimit:4,strokeDasharray:"none",strokeOpacity:1}} />
-
-            </g>
-            <path
-               style={{fill:"none", stroke:"#000000", strokeWidth:3, strokeLinecap:"butt", strokeLinejoin:"miter", strokeMiterlimit:4, strokeOpacity:1, markerEnd:"url(#marker2034)" }}
-               d={statistics.net_battery_current<0?"m 90.902205,82.538248 v -29.05692":"m 90.902205,49.481328 v 29.05692"}
-               id="path2030" />
-            <text
-               id="text2100"
-               y="33.715477"
-               x="43.845238"
-               style={{fontSize:"9px", lineHeight:1.25, fontFamily:"Algerian", fill:"#000000", fillOpacity:1, stroke:"none", strokeWidth:0.264583}}
-               ><tspan
-                  style={{strokeWidth:0.264583}}
-                  y="33.715477"
-                  x="43.845238"
-                  id="tspan2098">{ real_time.pv_power } W</tspan></text>
-            <text
-               style={{fontSize:"9px", lineHeight:1.25, fontFamily:"Algerian", fill:"#000000", fillOpacity:1, stroke:"none", strokeWidth:0.264583}}
-               x="114.14881"
-               y="33.715477"
-               id="text2104"><tspan
-                  id="tspan2102"
-                  x="114.14881"
-                  y="33.715477"
-                  style={{strokeWidth:0.264583}}>{ real_time.load_power } W</tspan></text>
-            <text
-               id="text2108"
-               y="67.279762"
-               x="101.29762"
-               style={{fontSize:"9px", lineHeight:1.25, fontFamily:"Algerian", fill:"#000000", fillOpacity:1, stroke:"none", strokeWidth:0.264583}}
-               ><tspan
-                  style={{strokeWidth:0.264583}}
-                  y="67.279762"
-                  x="101.29762"
-                  id="tspan2106">{ trimNumber(statistics.net_battery_current < 0 ? Math.abs(real_time.battery_voltage * statistics.net_battery_current) : real_time.battery_charging_power) } W</tspan></text>
+         <path
+           fill="#002"
+           fillOpacity={0.651}
+           stroke="#000"
+           strokeLinejoin="bevel"
+           strokeOpacity={0.711}
+           d="M34.67 35.983h71.815v52.161H34.67z"
+           transform="matrix(.31867 0 .12235 .31867 4.709 23.045)"
+         />
+         <path
+           fill="#00f"
+           stroke="#ff0"
+           strokeWidth={3}
+           strokeLinejoin="bevel"
+           d="M43.089 26.458h71.815v52.161H43.089z"
+           transform="matrix(.31867 0 .12235 .31867 4.709 23.045)"
+         />
+         <path
+           d="M60.854 26.458V78.62M79.224 26.08v52.35M97.782 27.025V78.43M42.522 45.735h72.383M43.278 62.555h71.816"
+           fill="none"
+           stroke="#ff0"
+           strokeWidth={3}
+           transform="matrix(.31867 0 .12235 .31867 4.709 23.045)"
+         />
+         <g transform="translate(56.813 7.427) scale(.77114)">
+           <path
+             fill="#ccc"
+             fillOpacity={0.651}
+             stroke="#000"
+             strokeWidth={1.561}
+             strokeLinejoin="bevel"
+             strokeOpacity={0.711}
+             d="M45.124 31.887h36.425v19.881H45.124z"
+           />
+           <path fill="green" d="M50.129 47.319h22.384v2.224H50.129z" />
+           <circle r={0.861} cy={40.65} cx={73.973} fill="#00f" />
+           <circle cx={52.418} cy={37.426} r={1.039} fill="#0f0" />
+           <circle r={1.039} cy={37.426} cx={55.593} fill="#0f0" />
          </g>
+         <path
+           d="M38.837 47.937h29.057"
+           fill="none"
+           stroke="#000"
+           strokeWidth={3}
+           markerEnd="url(#prefix__a)"
+           transform="translate(14.737 -5.714)"
+         />
+         <path
+           d="M108.687 47.937h29.057"
+           fill="none"
+           stroke="#000"
+           strokeWidth={3}
+           markerEnd="url(#prefix__b)"
+           transform="translate(14.737 -5.714)"
+         />
+         <g transform="translate(14.737 1.165)" stroke="#000">
+           <ellipse
+             ry={7.149}
+             rx={7.717}
+             cy={33.777}
+             cx={155.48}
+             fill={coils.manual_control_load?"#ff0":"#fff"}
+             strokeWidth={0.5}
+             strokeLinejoin="bevel"
+           />
+           <path
+             d="M155.456 26.776a7.358 7.358 0 00-7.35 7.358c.342 2.747 1.284 3.75 3.173 5.822l.835 1.088v8.797h6.244v-8.797l1.244-1.183c1.764-1.93 3.22-2.639 3.22-5.727a7.358 7.358 0 00-7.357-7.358z"
+             fill="none"
+             strokeWidth={2.124}
+             strokeLinejoin="bevel"
+           />
+           <path
+             d="M152.521 48.048l5.67-1.52M152.521 46.175l5.67-1.52M152.521 44.302l5.67-1.52M152.521 42.803l5.67-1.519"
+             fill="none"
+             strokeWidth={0.849}
+           />
+           <path
+             d="M153.142 40.987l-1.749-6.526"
+             fill="none"
+             strokeWidth={0.265}
+           />
+           <path d="M157.64 40.984l1.904-6.52" fill="none" strokeWidth={0.276} />
+           <path
+             d="M151.393 34.46c.027.003.083.034.081.007-.009-.104-.219-.326-.236-.52-.044-.48.287-.98.732-1.158.167-.066.412-.076.59-.118.228-.052.238-.046.45.048.016.007.036.01.047.023.31.4.466.87.52 1.37.02.196.017.394.023.591.001.044-.018.342-.07.378-.206.137-.357-.17-.402-.307-.061-.183-.048-.22-.048-.402 0-.715.34-1.019.992-1.252.165-.059.395-.12.567-.07.199.056.396.177.473.377.09.232.282 1.408-.284 1.181-.137-.055-.148-.108-.236-.236-.048-.07-.111-.133-.142-.212a1.31 1.31 0 01.071-1.134c.052-.097.2-.156.284-.213.033-.022.058-.054.094-.07.111-.051.31-.066.425-.072.326-.017.174.011.426.095.045.015.099.002.141.024.222.11.484.565.591.78a.924.924 0 01.047.613c-.004.016.01.034 0 .048-.01.014-.032.014-.047.023-.135.081-.328.076-.425-.07-.375-.562-.296-.997.189-1.442.338-.31 1.216-.37 1.512.024.251.335.298 1.077.07 1.417-.015.024-.05.027-.07.048-.036.035-.056.085-.095.118-.012.01-.032-.004-.047 0-.028.007-.043.047-.071.047-.187 0-.213-.315-.26-.496-.193-.754.293-1.618 1.063-1.796.201-.046.669-.067.85.024.168.084.201.32.26.496.015.045-.007.095 0 .142.009.042.042.076.048.118.021.152.007.319.023.472.019.174.06.346.071.52.015.236-.007.475-.023.709a.351.351 0 01-.048.142c-.005.01-.024.034-.023.023.005-.096.025-.19.038-.286"
+             fill="none"
+             strokeWidth={0.265}
+           />
+         </g>
+         <path
+           d={statistics.net_battery_current<0?"M90.902 85.417v-29.057":"M90.902 56.36v29.057"}
+           fill="none"
+           stroke="#000"
+           strokeWidth={3}
+           markerEnd="url(#prefix__c)"
+           transform="translate(14.737 -5.714)"
+         />
+         <text
+           style={{
+             lineHeight: 1.25,
+           }}
+           x={43.845}
+           y={40.595}
+           fontWeight={400}
+           fontSize={9}
+           fontFamily="Algerian"
+           letterSpacing={0}
+           wordSpacing={0}
+           strokeWidth={0.265}
+           transform="translate(14.737 -5.714)"
+         >
+            <tspan x={43.845} y={40.595}>
+               { real_time.pv_power } W
+            </tspan>
+         </text>
+         <text
+           y={40.595}
+           x={114.149}
+           style={{
+             lineHeight: 1.25,
+           }}
+           fontWeight={400}
+           fontSize={9}
+           fontFamily="Algerian"
+           letterSpacing={0}
+           wordSpacing={0}
+           strokeWidth={0.265}
+           transform="translate(14.737 -5.714)"
+         >
+            <tspan y={40.595} x={114.149}>
+               { real_time.load_power } W
+            </tspan>
+         </text>
+         <text
+           style={{
+             lineHeight: 1.25,
+           }}
+           x={101.298}
+           y={74.159}
+           fontWeight={400}
+           fontSize={9}
+           fontFamily="Algerian"
+           letterSpacing={0}
+           wordSpacing={0}
+           strokeWidth={0.265}
+           transform="translate(14.737 -5.714)"
+         >
+            <tspan x={101.298} y={74.159}>
+               { trimNumber(statistics.net_battery_current < 0 ? Math.abs(real_time.battery_voltage * statistics.net_battery_current) : real_time.battery_charging_power) } W
+            </tspan>
+         </text>
+         <g>
+           <path
+             fill="#999"
+             stroke="#000"
+             strokeWidth={0.26}
+             strokeLinejoin="bevel"
+             d="M90.61 88.739h30.088v17.699H90.61z"
+           />
+           <path
+             stroke="#000"
+             strokeWidth={0.4}
+             strokeLinejoin="bevel"
+             d="M91.815 85.48h2.422v3.103h-2.422z"
+           />
+           <path
+             stroke="#000"
+             strokeWidth={0.4}
+             strokeLinejoin="bevel"
+             d="M91.815 85.48h2.422v3.103h-2.422zM116.397 85.48h2.422v3.103h-2.422z"
+           />
+           <path
+             fill="#fff"
+             stroke="#000"
+             strokeWidth={0.5}
+             strokeLinejoin="bevel"
+             d="M92.608 90.802h26.326v13.764H92.608z"
+           />
+           <path fill="#0f0" d={`M92.832 90.884h${real_time.battery_soc * .25897}v13.418H92.832z`} />
+           <path
+             fill="none"
+             stroke="#000"
+             strokeWidth={0.5}
+             strokeLinejoin="bevel"
+             d="M92.608 90.802h26.326v13.764H92.608z"
+           />
+         </g>
+         { !discrete.day_night &&
+            <g transform="matrix(.6832 0 0 .6832 26.148 1.212)">
+            <circle r={7.918} cy={17.09} cx={23.788} fill="#ff0" />
+            <path
+               d="M10.067 17.09h4.158M33.35 17.09h4.158M23.788 3.37v4.158M23.788 26.653v4.158M33.49 7.388l-2.94 2.94M17.026 23.852l-2.94 2.94M33.49 26.792l-2.94-2.94M17.026 10.328l-2.94-2.94"
+               fill="none"
+               stroke="#ff0"
+            />
+            </g>
+         }
+         { discrete.day_night &&
+            <g transform="matrix(.6832 0 0 .6832 26.148 1.212)">
+               <circle cx={23.788} cy={17.09} r={7.918} fill="#ff0" />
+               <path d="M21.304 24.609a7.918 7.918 0 01-5.208-9.395 7.918 7.918 0 018.949-5.941l-1.257 7.817z" />
+            </g>
+         }
       </svg>
    );
 }
