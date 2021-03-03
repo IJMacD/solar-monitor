@@ -71,9 +71,10 @@ export default function Graph ({ log }) {
             const now = Date.now();
 
             // Data Lines
-            drawLine(ctx, log, now, innerWidth, innerHeight, xScale, yScale, seriesOffset.pv        + pageOffset.indexOf(page), "#ff0000");
-            drawLine(ctx, log, now, innerWidth, innerHeight, xScale, yScale, seriesOffset.battery   + pageOffset.indexOf(page), "#00ff00");
-            drawLine(ctx, log, now, innerWidth, innerHeight, xScale, yScale, seriesOffset.load      + pageOffset.indexOf(page), "#0000ff");
+            const graphParams = { innerWidth, innerHeight, xScale, yScale, duration };
+            drawLine(ctx, log, now, graphParams, seriesOffset.pv        + pageOffset.indexOf(page), "#ff0000");
+            drawLine(ctx, log, now, graphParams, seriesOffset.battery   + pageOffset.indexOf(page), "#00ff00");
+            drawLine(ctx, log, now, graphParams, seriesOffset.load      + pageOffset.indexOf(page), "#0000ff");
         }
     }, [log, page]);
 
@@ -87,11 +88,18 @@ export default function Graph ({ log }) {
     )
 }
 
-function drawLine(ctx, log, now, innerWidth,innerHeight, xScale, yScale, dataOffset, colour) {
+function drawLine(ctx, log, now, graphParams, dataOffset, colour) {
+    const { innerWidth, innerHeight, xScale, yScale, duration } = graphParams;
     ctx.beginPath();
     for (const point of log) {
         const d = new Date(point[0]);
-        ctx.lineTo(innerWidth - (now - +d) * xScale, innerHeight - point[dataOffset] * yScale);
+        const delta = now - +d;
+        if (delta < duration) {
+            ctx.lineTo(innerWidth - delta * xScale, innerHeight - point[dataOffset] * yScale);
+        }
+        else {
+            ctx.moveTo(innerWidth - delta * xScale, innerHeight - point[dataOffset] * yScale);
+        }
     }
     ctx.lineWidth = 1;
     ctx.strokeStyle = colour;
