@@ -33,7 +33,7 @@ export default function Graph ({ log }) {
             const maxVal = Math.ceil(getMaxVal(log, page));
             const duration = 60 * 60 * 1000; // 1 hour
 
-            const gutterSize = 20;
+            const gutterSize = 20 * devicePixelRatio;
             const innerWidth = pixelWidth - 2 * gutterSize;
             const innerHeight = pixelHeight - 2 * gutterSize;
 
@@ -58,15 +58,17 @@ export default function Graph ({ log }) {
             }
 
             // Axis Labels
+            const fontSize = 9 * devicePixelRatio;
+            ctx.font = `${fontSize}pt sans-serif`;
             ctx.textAlign = "right";
-            ctx.strokeText("0", -5, innerHeight);
-            ctx.strokeText(maxVal.toString(), -5, 0);
+            ctx.fillText("0", -0.5 * fontSize, innerHeight);
+            ctx.fillText(maxVal.toString(), -0.5 * fontSize, 0);
             const lastTime = new Date(log[log.length - 1][0]);
             const timeStart = new Date(+lastTime - duration);
             const formatter = new Intl.DateTimeFormat([], { timeStyle: "short" });
-            ctx.strokeText(formatter.format(lastTime), innerWidth, innerHeight + 12);
+            ctx.fillText(formatter.format(lastTime), innerWidth, innerHeight + fontSize * 1.2);
             ctx.textAlign = "left";
-            ctx.strokeText(formatter.format(timeStart), 0, innerHeight + 12);
+            ctx.fillText(formatter.format(timeStart), 0, innerHeight + fontSize * 1.2);
 
             const now = Date.now();
 
