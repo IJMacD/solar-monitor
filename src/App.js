@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import Diagram from './Diagram';
 
-// const endpoint = `http://nas.lan/PhpEpsolarTracer/example_json.php`;
-// const endpoint = `http://nas.home.ijmacd.com/PhpEpsolarTracer/example_json.php`;
-const endpoint = `http://dragonsgo.mooo.com:8080/PhpEpsolarTracer/example_json.php`;
+const endpoint = process.env.REACT_APP_API_ENDPOINT;
 
 function App() {
   const [data, setData]  = useState(null);
@@ -68,8 +66,8 @@ function App() {
           <input readOnly id="load_voltage" value={data.real_time.load_voltage} />
           <label htmlFor="load_power">Load Power (W)</label>
           <input readOnly id="load_power" value={data.real_time.load_power} />
-          <label htmlFor="load_power">Load Status</label>
-          <input readOnly id="load_power" value={data.coils.manual_control_load?"ON":"OFF"} />
+          <label htmlFor="manual_load_control">Load Status</label>
+          <input readOnly id="manual_load_control" value={data.coils.manual_control_load?"ON":"OFF"} />
         </fieldset>
         <fieldset>
           <legend>Controller Information</legend>
@@ -77,6 +75,8 @@ function App() {
           <input readOnly id="charger_temperature" value={data.real_time.charger_temperature} />
           <label htmlFor="running">Device Status</label>
           <input readOnly id="running" value={data.status.charging_status.fault?"FAULT":(data.status.charging_status.running?"RUNNING":"STANDBY")} />
+          <label htmlFor="date_time">Date/Time</label>
+          <input readOnly id="date_time" value={data.status.date_time} />
         </fieldset>
       </div>
       <div style={{display:"flex"}}>
