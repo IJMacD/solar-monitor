@@ -144,7 +144,7 @@ export default function Diagram ({ real_time, statistics, coils, discrete }) {
            />
          </g>
          <path
-           d={statistics.net_battery_current<0?"M90.902 85.417v-29.057":"M90.902 56.36v29.057"}
+           d={statistics.net_battery_current<0?"M90.902 90.417v-29.057":"M90.902 56.36v29.057"}
            fill="none"
            stroke="#000"
            strokeWidth={3}
