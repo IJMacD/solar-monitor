@@ -3,7 +3,8 @@ import './App.css';
 import Diagram from './Diagram';
 import Graph from './Graph';
 
-const endpoint = process.env.REACT_APP_API_ENDPOINT;
+const endpoint = process.env.REACT_APP_DATA_ENDPOINT;
+const isControllable = typeof process.env.REACT_APP_CONTROL_ENDPOINT === "string";
 
 function App() {
   const [data, setData] = useState(null);
@@ -87,8 +88,14 @@ function App() {
           <input readOnly id="load_voltage" value={data.real_time.load_voltage} />
           <label htmlFor="load_power">Load Power (W)</label>
           <input readOnly id="load_power" value={data.real_time.load_power} />
-          <label htmlFor="manual_load_control">Load Status</label>
-          <input readOnly id="manual_load_control" value={data.coils.manual_control_load?"ON":"OFF"} />
+          <label htmlFor="manual_control_load">Load Status</label>
+          <input readOnly id="manual_control_load" value={data.coils.manual_control_load?"ON":"OFF"} />
+          { isControllable &&
+            <div>
+              <button onClick={() => setLoad(true)}>ON</button>
+              <button onClick={() => setLoad(false)}>OFF</button>
+            </div>
+          }
         </fieldset>
         <fieldset>
           <legend>Controller Information</legend>
@@ -132,11 +139,21 @@ function App() {
           <Graph log={dataLog} />
         </div>
       </div>
+      <p>Clone on <a href="https://github.com/IJMacD/epsolar-app">GitHub</a>.</p>
     </div>
   );
 
   function fetchData() {
     fetch(endpoint).then(r => r.json()).then(setData);
+  }
+
+  function setLoad (on) {
+    const body = new URLSearchParams({ load: on ? "1" : "0" });
+
+    fetch(process.env.REACT_APP_CONTROL_ENDPOINT, {
+      method: "post",
+      body
+    }).then(fetchData);
   }
 }
 
