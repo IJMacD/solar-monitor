@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import Diagram from './Diagram';
 
 // const endpoint = `http://nas.lan/PhpEpsolarTracer/example_json.php`;
 // const endpoint = `http://nas.home.ijmacd.com/PhpEpsolarTracer/example_json.php`;
@@ -44,6 +45,8 @@ function App() {
           <input readOnly id="battery_voltage" value={data.real_time.battery_voltage} />
           <label htmlFor="battery_charging_current">Battery Current (A)</label>
           <input readOnly id="battery_charging_current" value={data.real_time.battery_charging_current} />
+          <label htmlFor="battery_charging_power">Battery Power (W)</label>
+          <input readOnly id="battery_charging_power" value={data.real_time.battery_charging_power} />
           <label htmlFor="max_battery_voltage_today">Max Voltage (V)</label>
           <input readOnly id="max_battery_voltage_today" value={data.statistics.max_battery_voltage_today} />
           <label htmlFor="min_battery_voltage_today">Min Voltage (V)</label>
@@ -76,29 +79,34 @@ function App() {
           <input readOnly id="running" value={data.status.charging_status.fault?"FAULT":(data.status.charging_status.running?"RUNNING":"STANDBY")} />
         </fieldset>
       </div>
-      <div className="energy">
-        <fieldset>
-          <legend>Energy Generated (kWh)</legend>
-          <label htmlFor="generated_energy_today">Daily</label>
-          <input readOnly id="generated_energy_today" value={data.statistics.generated_energy_today} />
-          <label htmlFor="generated_energy_this_month">Monthly</label>
-          <input readOnly id="generated_energy_this_month" value={data.statistics.generated_energy_this_month} />
-          <label htmlFor="generated_energy_this_year">Annual</label>
-          <input readOnly id="generated_energy_this_year" value={data.statistics.generated_energy_this_year} />
-          <label htmlFor="total_generated_energy">Total</label>
-          <input readOnly id="total_generated_energy" value={data.statistics.total_generated_energy} />
-        </fieldset>
-        <fieldset>
-          <legend>Energy Consumed (kWh)</legend>
-          <label htmlFor="consumed_energy_today">Daily</label>
-          <input readOnly id="consumed_energy_today" value={data.statistics.consumed_energy_today} />
-          <label htmlFor="consumed_energy_this_month">Monthly</label>
-          <input readOnly id="consumed_energy_this_month" value={data.statistics.consumed_energy_this_month} />
-          <label htmlFor="consumed_energy_this_year">Annual</label>
-          <input readOnly id="consumed_energy_this_year" value={data.statistics.consumed_energy_this_year} />
-          <label htmlFor="total_consumed_energy">Total</label>
-          <input readOnly id="total_consumed_energy" value={data.statistics.total_consumed_energy} />
-        </fieldset>
+      <div style={{display:"flex"}}>
+        <div className="energy">
+          <fieldset>
+            <legend>Energy Generated (kWh)</legend>
+            <label htmlFor="generated_energy_today">Daily</label>
+            <input readOnly id="generated_energy_today" value={data.statistics.generated_energy_today} />
+            <label htmlFor="generated_energy_this_month">Monthly</label>
+            <input readOnly id="generated_energy_this_month" value={data.statistics.generated_energy_this_month} />
+            <label htmlFor="generated_energy_this_year">Annual</label>
+            <input readOnly id="generated_energy_this_year" value={data.statistics.generated_energy_this_year} />
+            <label htmlFor="total_generated_energy">Total</label>
+            <input readOnly id="total_generated_energy" value={data.statistics.total_generated_energy} />
+          </fieldset>
+          <fieldset>
+            <legend>Energy Consumed (kWh)</legend>
+            <label htmlFor="consumed_energy_today">Daily</label>
+            <input readOnly id="consumed_energy_today" value={data.statistics.consumed_energy_today} />
+            <label htmlFor="consumed_energy_this_month">Monthly</label>
+            <input readOnly id="consumed_energy_this_month" value={data.statistics.consumed_energy_this_month} />
+            <label htmlFor="consumed_energy_this_year">Annual</label>
+            <input readOnly id="consumed_energy_this_year" value={data.statistics.consumed_energy_this_year} />
+            <label htmlFor="total_consumed_energy">Total</label>
+            <input readOnly id="total_consumed_energy" value={data.statistics.total_consumed_energy} />
+          </fieldset>
+        </div>
+        <div className="diagram">
+          <Diagram { ...data } />
+        </div>
       </div>
     </div>
   );
