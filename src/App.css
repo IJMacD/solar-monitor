@@ -1,5 +1,8 @@
-.real_time {
-  display: flex;
+@media (min-width: 768px) {
+  .real_time,
+  .lower-panel {
+    display: flex;
+  }
 }
 fieldset {
   flex: 1;
@@ -7,4 +10,7 @@ fieldset {
 label {
   display: block;
   font-weight: bold;
+}
+svg {
+  max-width: 100%;
 }

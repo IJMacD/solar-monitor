@@ -100,7 +100,7 @@ function App() {
           <input readOnly id="date_time" value={data.status.date_time} />
         </fieldset>
       </div>
-      <div style={{display:"flex"}}>
+      <div className="lower-panel">
         <div className="energy">
           <fieldset>
             <legend>Energy Generated (kWh)</legend>
