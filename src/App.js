@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import Diagram from './Diagram';
 import Graph from './Graph';
+import Icon from './Icon';
 
 const endpoint = process.env.REACT_APP_DATA_ENDPOINT;
 const isControllable = typeof process.env.REACT_APP_CONTROL_ENDPOINT === "string";
@@ -47,48 +48,67 @@ function App() {
         <fieldset>
           <legend>Solar Information</legend>
           <label htmlFor="pv_power">Solar Power (W)</label>
+          <Icon name="power" />
           <input readOnly id="pv_power" value={data.real_time.pv_power} />
           <label htmlFor="pv_voltage">Solar Voltage (V)</label>
+          <Icon name="voltage" />
           <input readOnly id="pv_voltage" value={data.real_time.pv_voltage} />
           <label htmlFor="pv_current">Solar Current (A)</label>
+          <Icon name="current" />
           <input readOnly id="pv_current" value={data.real_time.pv_current} />
           <label htmlFor="pv_voltage_status">Solar Status</label>
+          <Icon name="solar" />
           <input readOnly id="pv_voltage_status" value={data.status.charging_status.pv_voltage_status} />
           <label htmlFor="max_pv_voltage_today">Max Voltage (V)</label>
+          <Icon name="voltage_max" />
           <input readOnly id="max_pv_voltage_today" value={data.statistics.max_pv_voltage_today} />
           <label htmlFor="min_pv_voltage_today">Min Voltage (V)</label>
+          <Icon name="voltage_min" />
           <input readOnly id="min_pv_voltage_today" value={data.statistics.min_pv_voltage_today} />
         </fieldset>
         <fieldset style={{flex:2}}>
           <legend>Battery Information</legend>
           <label htmlFor="battery_voltage">Battery Voltage (V)</label>
+          <Icon name="voltage" />
           <input readOnly id="battery_voltage" value={data.real_time.battery_voltage} />
           <label htmlFor="battery_charging_current">Battery Current (A)</label>
+          <Icon name="current" />
           <input readOnly id="battery_charging_current" value={data.real_time.battery_charging_current} />
           <label htmlFor="battery_charging_power">Battery Power (W)</label>
+          <Icon name="power" />
           <input readOnly id="battery_charging_power" value={data.real_time.battery_charging_power} />
           <label htmlFor="max_battery_voltage_today">Max Voltage (V)</label>
+          <Icon name="voltage_max" />
           <input readOnly id="max_battery_voltage_today" value={data.statistics.max_battery_voltage_today} />
           <label htmlFor="min_battery_voltage_today">Min Voltage (V)</label>
+          <Icon name="voltage_min" />
           <input readOnly id="min_battery_voltage_today" value={data.statistics.min_battery_voltage_today} />
           <label htmlFor="battery_temperature">Battery Temp (°C)</label>
+          <Icon name="temperature" />
           <input readOnly id="battery_temperature" value={data.real_time.battery_temperature} />
           <label htmlFor="battery_soc">Battery SOC (%)</label>
+          <Icon name="battery" />
           <input readOnly id="battery_soc" value={data.real_time.battery_soc} />
           <label htmlFor="charging_phase">Charging Status</label>
+          <Icon name="battery" />
           <input readOnly id="charging_phase" value={data.status.charging_status.charging_phase} />
           <label htmlFor="battery_status_voltage">Battery Status</label>
+          <Icon name="battery" />
           <input readOnly id="battery_status_voltage" value={data.status.battery_status.battery_status_voltage} />
         </fieldset>
         <fieldset>
           <legend>DC Load Information</legend>
           <label htmlFor="load_current">Load Current (A)</label>
+          <Icon name="current" />
           <input readOnly id="load_current" value={data.real_time.load_current} />
           <label htmlFor="load_voltage">Load Voltage (V)</label>
+          <Icon name="voltage" />
           <input readOnly id="load_voltage" value={data.real_time.load_voltage} />
           <label htmlFor="load_power">Load Power (W)</label>
+          <Icon name="power" />
           <input readOnly id="load_power" value={data.real_time.load_power} />
           <label htmlFor="manual_control_load">Load Status</label>
+          <Icon name="load" />
           <input readOnly id="manual_control_load" value={data.coils.manual_control_load?"ON":"OFF"} />
           { isControllable &&
             <div>
@@ -100,10 +120,13 @@ function App() {
         <fieldset>
           <legend>Controller Information</legend>
           <label htmlFor="charger_temperature">Device Temperature (°C)</label>
+          <Icon name="temperature" />
           <input readOnly id="charger_temperature" value={data.real_time.charger_temperature} />
           <label htmlFor="running">Device Status</label>
+          <Icon name="device" />
           <input readOnly id="running" value={data.status.charging_status.fault?"FAULT":(data.status.charging_status.running?"RUNNING":"STANDBY")} />
           <label htmlFor="date_time">Date/Time</label>
+          <Icon name="clock" />
           <input readOnly id="date_time" value={data.status.date_time} />
         </fieldset>
       </div>
