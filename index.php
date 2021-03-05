@@ -41,18 +41,9 @@ if ($method === "data") {
     }
 
     if (file_exists($filename)) {
-        if (preg_match("/\.png$/", $filename)) {
-            header("Content-Type: image/png");
-        } else if (preg_match("/\.ico$/", $filename)) {
-            header("Content-Type: image/x-icon");
-        } else if (preg_match("/\.css$/", $filename)) {
-            header("Content-Type: text/css");
-        } else if (preg_match("/\.js$/", $filename)) {
-            header("Content-Type: text/javascript");
-        }  else if (preg_match("/\.json$/", $filename)) {
-            header("Content-Type: application/json");
-        } else if (preg_match("/\.txt$/", $filename)) {
-            header("Content-Type: text/plain");
+        $mime = getMime($filename);
+        if ($mime) {
+            header("Content-Type: ". $mime);
         }
 
         echo file_get_contents($filename);
@@ -60,4 +51,26 @@ if ($method === "data") {
     }
 
     header("HTTP/1.1 404 Not Found");
+}
+
+function getMime ($filename) {
+    $mime_array = array (
+        "json"  => "application/json",
+        "png"   => "image/png",
+        "svg"   => "image/svg+xml",
+        "ico"   => "image/x-icon",
+        "css"   => "text/css",
+        "js"    => "text/javascript",
+        "txt"   => "text/plain",
+    );
+
+    if (preg_match("/\.([a-z0-9]+)$/", $filename, $matches)) {
+        $ext = $matches[1];
+
+        if (isset($mime_array[$ext])) {
+            return $mime_array[$ext];
+        }
+
+        return false;
+    }
 }
