@@ -30,7 +30,7 @@ if ($method === "data") {
     }
 } else if ($method === "") {
     header("Content-Type: text/html");
-    echo file_get_contents("./app/index.html");
+    readfile("./app/index.html");
 } else {
 
     $filename = "./app/" . $method;
@@ -46,7 +46,7 @@ if ($method === "data") {
             header("Content-Type: ". $mime);
         }
 
-        echo file_get_contents($filename);
+        readfile($filename);
         exit;
     }
 
