@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
-const pageOffset = ["voltage","current","power"];
+const pages = ["voltage","current","power","temperature"];
 const seriesOffset = {
     pv: 1,
     battery: 4,
     load: 7,
 };
+const colours = ["#ff0000","#00ff00","#0000ff"];
 
 /**
  *
@@ -17,7 +18,7 @@ export default function Graph ({ log }) {
     /** @type {import("react").MutableRefObject<HTMLCanvasElement>} */
     const canvasRef = useRef();
 
-    const width = 400;
+    const width = 500;
     const height = 300;
 
     useEffect(() => {
@@ -30,17 +31,22 @@ export default function Graph ({ log }) {
             canvasRef.current.width = pixelWidth;
             canvasRef.current.height = pixelHeight;
 
-            const maxVal = Math.ceil(getMaxVal(log, page));
+            const allSeries = getAllSeries(log, page);
+
+            const maxVal = Math.ceil(Math.max(...allSeries.flat()));
             const duration = 60 * 60 * 1000; // 1 hour
 
-            const gutterSize = 20 * devicePixelRatio;
-            const innerWidth = pixelWidth - 2 * gutterSize;
-            const innerHeight = pixelHeight - 2 * gutterSize;
+            const gutterSizeTop = 20 * devicePixelRatio;
+            const gutterSizeBottom = gutterSizeTop;
+            const gutterSizeLeft = 20 * devicePixelRatio;
+            const gutterSizeRight = 100 * devicePixelRatio;
+            const innerWidth = pixelWidth - gutterSizeLeft - gutterSizeRight;
+            const innerHeight = pixelHeight - gutterSizeTop - gutterSizeBottom;
 
             const yScale = innerHeight / maxVal;
             const xScale = innerWidth / duration;
 
-            ctx.translate(gutterSize, gutterSize);
+            ctx.translate(gutterSizeTop, gutterSizeLeft);
 
             ctx.strokeRect(0,0, innerWidth, innerHeight);
 
@@ -73,34 +79,51 @@ export default function Graph ({ log }) {
             const now = Date.now();
 
             // Data Lines
-            const graphParams = { innerWidth, innerHeight, xScale, yScale, duration };
-            drawLine(ctx, log, now, graphParams, seriesOffset.pv        + pageOffset.indexOf(page), "#ff0000");
-            drawLine(ctx, log, now, graphParams, seriesOffset.battery   + pageOffset.indexOf(page), "#00ff00");
-            drawLine(ctx, log, now, graphParams, seriesOffset.load      + pageOffset.indexOf(page), "#0000ff");
+            const graphParams = { innerWidth, innerHeight, xScale, yScale, duration, now };
+            const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
+            const xValues = log.map(p => p[0]);
+            allSeries.forEach((series, i) => {
+                drawLine(ctx, xValues, series, graphParams, colours[i]);
+            });
+            labels.forEach((label, i) => {
+                const lineHeight = 12 * devicePixelRatio;
+                const keyLineWidth = 30;
+                const padding = 10;
+
+                ctx.beginPath();
+                ctx.moveTo(innerWidth + padding, i * lineHeight);
+                ctx.lineTo(innerWidth + padding + keyLineWidth, i * lineHeight);
+                ctx.strokeStyle = colours[i];
+                ctx.stroke();
+
+                ctx.fillStyle = "#000";
+                ctx.fillText(label, innerWidth + (padding * 2) + keyLineWidth, i * lineHeight + (lineHeight / 2));
+            });
         }
     }, [log, page]);
 
     return (
         <div>
-            <button onClick={() => setPage("voltage")} style={{fontWeight:page==="voltage"?"bold":"normal"}}>Voltage</button>
-            <button onClick={() => setPage("current")} style={{fontWeight:page==="current"?"bold":"normal"}}>Current</button>
-            <button onClick={() => setPage("power")} style={{fontWeight:page==="power"?"bold":"normal"}}>Power</button>
+            {
+                pages.map(p => <button key={p} onClick={() => setPage(p)} style={{fontWeight:page===p?"bold":"normal"}}>{ucFirst(p)}</button>)
+            }
             <canvas ref={canvasRef} style={{ width, height }} />
         </div>
     )
 }
 
-function drawLine(ctx, log, now, graphParams, dataOffset, colour) {
-    const { innerWidth, innerHeight, xScale, yScale, duration } = graphParams;
+function drawLine(ctx, xValues, yValues, graphParams, colour) {
+    const { innerWidth, innerHeight, xScale, yScale, duration, now } = graphParams;
     ctx.beginPath();
-    for (const point of log) {
-        const d = new Date(point[0]);
+    for (let i = 0; i < xValues.length; i++) {
+        const value = yValues[i];
+        const d = new Date(xValues[i]);
         const delta = now - +d;
         if (delta < duration) {
-            ctx.lineTo(innerWidth - delta * xScale, innerHeight - point[dataOffset] * yScale);
+            ctx.lineTo(innerWidth - delta * xScale, innerHeight - value * yScale);
         }
         else {
-            ctx.moveTo(innerWidth - delta * xScale, innerHeight - point[dataOffset] * yScale);
+            ctx.moveTo(innerWidth - delta * xScale, innerHeight - value * yScale);
         }
     }
     ctx.lineWidth = 1;
@@ -108,8 +131,19 @@ function drawLine(ctx, log, now, graphParams, dataOffset, colour) {
     ctx.stroke();
 }
 
-function getMaxVal (log, page) {
-    const indices = Object.values(seriesOffset).map(v => v + pageOffset.indexOf(page));
-    const vals = log.map(d => indices.map(i => d[i])).flat();
-    return Math.max(...vals);
+function getAllSeries(log, page) {
+    let indices;
+
+    if (page === "temperature") {
+        indices = [10,11];
+    } else {
+        indices = Object.values(seriesOffset).map(v => v + pages.indexOf(page));
+    }
+
+    return indices.map(i => log.map(d => d[i]));
+}
+
+function ucFirst (text) {
+    if (typeof text !== "string") return text;
+    return text.substr(0, 1).toUpperCase() + text.substr(1);
 }

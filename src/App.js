@@ -32,6 +32,8 @@ function App() {
         data.real_time.load_voltage,
         data.real_time.load_current,
         data.real_time.load_power,
+        data.real_time.charger_temperature,
+        data.real_time.remote_battery_temperature,
       ];
 
       setDataLog(log => [ ...log, newPoint ]);
