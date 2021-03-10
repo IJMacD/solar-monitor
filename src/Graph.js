@@ -107,7 +107,7 @@ export default function Graph ({ log }) {
             {
                 pages.map(p => <button key={p} onClick={() => setPage(p)} style={{fontWeight:page===p?"bold":"normal"}}>{ucFirst(p)}</button>)
             }
-            <canvas ref={canvasRef} style={{ width, height }} />
+            <canvas ref={canvasRef} style={{ width, maxWidth: "100%" }} />
         </div>
     )
 }

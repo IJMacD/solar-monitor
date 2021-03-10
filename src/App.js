@@ -151,7 +151,7 @@ function App() {
             <input readOnly id="manual_control_load" value={data.coils.manual_control_load?"ON":"OFF"} />
           </div>
           { isControllable &&
-            <div>
+            <div style={{ width: "100%", textAlign: "center" }}>
               <button onClick={() => setLoad(true)}>ON</button>
               <button onClick={() => setLoad(false)}>OFF</button>
             </div>
