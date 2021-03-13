@@ -3,6 +3,7 @@ import './App.css';
 import Diagram from './Diagram';
 import Graph from './Graph';
 import Icon from './Icon';
+import Parameters from './Parameters';
 
 const endpoint = process.env.REACT_APP_DATA_ENDPOINT;
 const isControllable = typeof process.env.REACT_APP_CONTROL_ENDPOINT === "string";
@@ -224,6 +225,8 @@ function App() {
           <Graph log={dataLog} />
         </div>
       </div>
+      <h2 style={{marginLeft: "1.5em"}}>Limits</h2>
+      <Parameters { ...data } />
       <p>Clone on <a href="https://github.com/IJMacD/epsolar-app">GitHub</a>.</p>
     </div>
   );
