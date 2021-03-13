@@ -202,7 +202,7 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
            transform="translate(14.737 -5.714)"
          >
             <tspan x={101.298} y={74.159}>
-               { trimNumber(statistics.net_battery_current < 0 ? Math.abs(real_time.battery_voltage * statistics.net_battery_current) : real_time.battery_charging_power) } W
+               { trimNumber(Math.abs(real_time.battery_voltage * statistics.net_battery_current)) } W
             </tspan>
          </text>
          <g>
@@ -257,7 +257,7 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
          { discrete.day_night === 0 && status.charging_status.charging_phase === "NOT_CHARGING" &&
             <path
                 d="M36.549 9.418a5.84 5.84 0 00-5.6 4.23 6.408 6.408 0 00-2.848-.668 6.408 6.408 0 00-6.408 6.408 6.408 6.408 0 006.408 6.408 6.408 6.408 0 00.316-.008.506.506 0 00.081.008h13.667c.08 0 .155-.02.223-.053a5.217 5.217 0 004.937-5.21 5.217 5.217 0 00-4.923-5.209 5.84 5.84 0 000-.065 5.84 5.84 0 00-5.84-5.84 5.84 5.84 0 00-.013 0z"
-                fill="#666"
+                fill="#a2a2a2"
             />
          }
       </svg>
