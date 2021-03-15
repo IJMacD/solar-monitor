@@ -31,9 +31,15 @@ export default function Graph ({ log }) {
             canvasRef.current.width = pixelWidth;
             canvasRef.current.height = pixelHeight;
 
+            if (log.length < 1) {
+                return;
+            }
+
             const allSeries = getAllSeries(log, page);
 
-            const maxVal = Math.ceil(Math.max(...allSeries.flat()));
+            const values = allSeries.flat();
+            const maxVal = Math.ceil(Math.max(...values));
+            const minVal = Math.floor(Math.min(0, ...values));
             const duration = 60 * 60 * 1000; // 1 hour
 
             const gutterSizeTop = 20 * devicePixelRatio;
@@ -43,31 +49,34 @@ export default function Graph ({ log }) {
             const innerWidth = pixelWidth - gutterSizeLeft - gutterSizeRight;
             const innerHeight = pixelHeight - gutterSizeTop - gutterSizeBottom;
 
-            const yScale = innerHeight / maxVal;
+            const yScale = innerHeight / (maxVal - minVal);
             const xScale = innerWidth / duration;
 
             ctx.translate(gutterSizeTop, gutterSizeLeft);
 
-            ctx.strokeRect(0,0, innerWidth, innerHeight);
-
             // Horizontal Grid lines
             ctx.beginPath();
-            for (let i = 0; i <= maxVal; i++) {
-                ctx.moveTo(0, innerHeight - i * yScale);
-                ctx.lineTo(innerWidth, innerHeight - i * yScale);
+            for (let i = minVal; i <= maxVal; i++) {
+                ctx.moveTo(0, innerHeight - (i - minVal) * yScale);
+                ctx.lineTo(innerWidth, innerHeight - (i - minVal) * yScale);
             }
             ctx.lineWidth = 0.5;
             ctx.stroke();
-
-            if (log.length < 1) {
-                return;
-            }
+            // Axes
+            ctx.beginPath();
+            ctx.moveTo(0, innerHeight - (-minVal) * yScale);
+            ctx.lineTo(innerWidth, innerHeight - (-minVal) * yScale);
+            ctx.lineWidth = 1;
+            ctx.stroke();
 
             // Axis Labels
             const fontSize = 9 * devicePixelRatio;
             ctx.font = `${fontSize}pt sans-serif`;
             ctx.textAlign = "right";
-            ctx.fillText("0", -0.5 * fontSize, innerHeight);
+            if (minVal !== 0) {
+                ctx.fillText("0", -0.5 * fontSize, innerHeight - (-minVal) * yScale);
+            }
+            ctx.fillText(minVal.toString(), -0.5 * fontSize, innerHeight);
             ctx.fillText(maxVal.toString(), -0.5 * fontSize, 0);
             const lastTime = new Date(log[log.length - 1][0]);
             const timeStart = new Date(+lastTime - duration);
@@ -79,7 +88,7 @@ export default function Graph ({ log }) {
             const now = Date.now();
 
             // Data Lines
-            const graphParams = { innerWidth, innerHeight, xScale, yScale, duration, now };
+            const graphParams = { innerWidth, innerHeight, xScale, yScale, duration, now, minVal };
             const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
             const xValues = log.map(p => p[0]);
             allSeries.forEach((series, i) => {
@@ -113,17 +122,17 @@ export default function Graph ({ log }) {
 }
 
 function drawLine(ctx, xValues, yValues, graphParams, colour) {
-    const { innerWidth, innerHeight, xScale, yScale, duration, now } = graphParams;
+    const { innerWidth, innerHeight, xScale, yScale, duration, now, minVal } = graphParams;
     ctx.beginPath();
     for (let i = 0; i < xValues.length; i++) {
         const value = yValues[i];
         const d = new Date(xValues[i]);
         const delta = now - +d;
         if (delta < duration) {
-            ctx.lineTo(innerWidth - delta * xScale, innerHeight - value * yScale);
+            ctx.lineTo(innerWidth - delta * xScale, innerHeight - (value - minVal) * yScale);
         }
         else {
-            ctx.moveTo(innerWidth - delta * xScale, innerHeight - value * yScale);
+            ctx.moveTo(innerWidth - delta * xScale, innerHeight - (value - minVal) * yScale);
         }
     }
     ctx.lineWidth = 1;
