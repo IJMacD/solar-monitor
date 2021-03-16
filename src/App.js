@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Diagram from './Diagram';
-import Graph from './Graph';
+import { GraphController } from './Graph';
 import Icon from './Icon';
 import Parameters from './Parameters';
 
@@ -222,7 +222,7 @@ function App() {
           <Diagram { ...data } />
         </div>
         <div className="graph">
-          <Graph log={dataLog} />
+          <GraphController log={dataLog} />
         </div>
       </div>
       <h2 style={{marginLeft: "1.5em"}}>Limits</h2>

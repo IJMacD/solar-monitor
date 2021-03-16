@@ -13,13 +13,55 @@ const colours = ["#ff0000","#00ff00","#0000ff"];
  * @param {object} param0
  * @param {any[]} param0.log
  */
-export default function Graph ({ log }) {
+ export function GraphController ({ log }) {
     const [ page, setPage ] = useState("voltage");
+
+    if (log.length < 1) {
+        return null;
+    }
+
+    return (
+        <div>
+            {
+                pages.map(p => <button key={p} onClick={() => setPage(p)} style={{fontWeight:page===p?"bold":"normal"}}>{ucFirst(p)}</button>)
+            }
+            <SingleGraph log={log} page={page} />
+        </div>
+    )
+}
+/**
+ *
+ * @param {object} param0
+ * @param {DataPoint[]} param0.log
+ * @param {string} param0.page
+ */
+export function SingleGraph ({ log, page }) {
+    const duration = 60 * 60 * 1000; // 1 hour
+
+    const cutOff = Date.now() - duration;
+
+    const filteredLog = log.filter(e => +new Date(e[0]) > cutOff);
+
+    const allSeries = getAllSeries(filteredLog, page);
+
+    const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
+
+    return <Graph data={allSeries} labels={labels} duration={duration} />;
+}
+
+/** @typedef {[string, ...number[]]} DataPoint */
+
+/**
+ * @param {object} param0
+ * @param {DataPoint[]} param0.data
+ * @param {number} param0.duration
+ * @param {string[]} param0.labels
+ * @param {number} [param0.width]
+ * @param {number} [param0.height]
+ */
+export function Graph ({ data, duration, labels, width = 500, height = 300 }) {
     /** @type {import("react").MutableRefObject<HTMLCanvasElement>} */
     const canvasRef = useRef();
-
-    const width = 500;
-    const height = 300;
 
     useEffect(() => {
         if (canvasRef.current) {
@@ -31,19 +73,7 @@ export default function Graph ({ log }) {
             canvasRef.current.width = pixelWidth;
             canvasRef.current.height = pixelHeight;
 
-            if (log.length < 1) {
-                return;
-            }
-
-            const duration = 60 * 60 * 1000; // 1 hour
-
-            const cutOff = Date.now() - duration;
-
-            const filteredLog = log.filter(e => +new Date(e[0]) > cutOff);
-
-            const allSeries = getAllSeries(filteredLog, page);
-
-            const values = allSeries.flat();
+            const values = data.map(([d, ...values]) => values).flat();
             const maxVal = Math.ceil(Math.max(...values));
             const minVal = Math.floor(Math.min(0, ...values));
 
@@ -83,7 +113,7 @@ export default function Graph ({ log }) {
             }
             ctx.fillText(minVal.toString(), -0.5 * fontSize, innerHeight);
             ctx.fillText(maxVal.toString(), -0.5 * fontSize, 0);
-            const lastTime = new Date(filteredLog[filteredLog.length - 1][0]);
+            const lastTime = new Date(data[data.length - 1][0]);
             const timeStart = new Date(+lastTime - duration);
             const formatter = new Intl.DateTimeFormat([], { timeStyle: "short" });
             ctx.fillText(formatter.format(lastTime), innerWidth, innerHeight + fontSize * 1.2);
@@ -94,12 +124,13 @@ export default function Graph ({ log }) {
 
             // Data Lines
             const graphParams = { innerWidth, innerHeight, xScale, yScale, duration, now, minVal };
-            const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
-            const xValues = filteredLog.map(p => p[0]);
-            allSeries.forEach((series, i) => {
-                drawLine(ctx, xValues, series, graphParams, colours[i]);
-            });
+            const xValues = data.map(p => p[0]);
+
             labels.forEach((label, i) => {
+                const yValues = data.map(p => p[i + 1]);
+
+                drawLine(ctx, xValues, yValues, graphParams, colours[i]);
+
                 const lineHeight = 12 * devicePixelRatio;
                 const keyLineWidth = 30;
                 const padding = 10;
@@ -114,16 +145,9 @@ export default function Graph ({ log }) {
                 ctx.fillText(label, innerWidth + (padding * 2) + keyLineWidth, i * lineHeight + (lineHeight / 2));
             });
         }
-    }, [log, page]);
+    }, [data, labels, duration, height, width]);
 
-    return (
-        <div>
-            {
-                pages.map(p => <button key={p} onClick={() => setPage(p)} style={{fontWeight:page===p?"bold":"normal"}}>{ucFirst(p)}</button>)
-            }
-            <canvas ref={canvasRef} style={{ width, maxWidth: "100%" }} />
-        </div>
-    )
+    return <canvas ref={canvasRef} style={{ width, maxWidth: "100%" }} />;
 }
 
 function drawLine(ctx, xValues, yValues, graphParams, colour) {
@@ -154,7 +178,7 @@ function getAllSeries(log, page) {
         indices = Object.values(seriesOffset).map(v => v + pages.indexOf(page));
     }
 
-    return indices.map(i => log.map(d => d[i]));
+    return log.map(d => [ d[0], ...indices.map(i => d[i]) ]);
 }
 
 function ucFirst (text) {
