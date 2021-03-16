@@ -21,3 +21,13 @@ label {
 svg {
   max-width: 100%;
 }
+
+input {
+  width: 100px;
+}
+
+@media (min-width: 1200px) {
+  input {
+      width: 159px;
+  }
+}

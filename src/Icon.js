@@ -1,3 +1,5 @@
+import "./Icon.css";
+
 /**
  *
  * @param {object} props
@@ -6,11 +8,9 @@
  */
 export default function Icon ({ name, style = {} }) {
     style.verticalAlign = style.verticalAlign || "middle";
-    style.width = style.width || 32;
-    style.height = style.height || 32;
 
     return (
-        <svg style={style}>
+        <svg className="Icon" style={style}>
             <use href={`${require('./img/sprites.svg').default}#${name}`} />
         </svg>
     );

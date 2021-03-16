@@ -35,12 +35,17 @@ export default function Graph ({ log }) {
                 return;
             }
 
-            const allSeries = getAllSeries(log, page);
+            const duration = 60 * 60 * 1000; // 1 hour
+
+            const cutOff = Date.now() - duration;
+
+            const filteredLog = log.filter(e => +new Date(e[0]) > cutOff);
+
+            const allSeries = getAllSeries(filteredLog, page);
 
             const values = allSeries.flat();
             const maxVal = Math.ceil(Math.max(...values));
             const minVal = Math.floor(Math.min(0, ...values));
-            const duration = 60 * 60 * 1000; // 1 hour
 
             const gutterSizeTop = 20 * devicePixelRatio;
             const gutterSizeBottom = gutterSizeTop;
@@ -78,7 +83,7 @@ export default function Graph ({ log }) {
             }
             ctx.fillText(minVal.toString(), -0.5 * fontSize, innerHeight);
             ctx.fillText(maxVal.toString(), -0.5 * fontSize, 0);
-            const lastTime = new Date(log[log.length - 1][0]);
+            const lastTime = new Date(filteredLog[filteredLog.length - 1][0]);
             const timeStart = new Date(+lastTime - duration);
             const formatter = new Intl.DateTimeFormat([], { timeStyle: "short" });
             ctx.fillText(formatter.format(lastTime), innerWidth, innerHeight + fontSize * 1.2);
@@ -90,7 +95,7 @@ export default function Graph ({ log }) {
             // Data Lines
             const graphParams = { innerWidth, innerHeight, xScale, yScale, duration, now, minVal };
             const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
-            const xValues = log.map(p => p[0]);
+            const xValues = filteredLog.map(p => p[0]);
             allSeries.forEach((series, i) => {
                 drawLine(ctx, xValues, series, graphParams, colours[i]);
             });
