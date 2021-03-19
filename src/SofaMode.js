@@ -1,10 +1,19 @@
+import { useEffect, useRef } from 'react';
 import { SingleGraph } from './Graph';
 import './SofaMode.css';
 
 function SofaMode ({ data, dataLog, onClose = null }) {
+  /** @type {import('react').MutableRefObject<HTMLDivElement>} */
+  const ref = useRef();
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.requestFullscreen();
+    }
+  }, []);
 
   return (
-    <div className="SofaMode" onClick={onClose}>
+    <div className="SofaMode" onClick={onClose} ref={ref}>
       <div className="data-box">
         <label htmlFor="pv_power">Solar Power</label>
         {data.real_time.pv_power} W
