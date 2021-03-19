@@ -1,5 +1,5 @@
 export default function Parameters ({ real_time, settings }) {
-    const vMax = 13;
+    const vMax = 16.1;
     const vMin = 10;
     const vRange = vMax - vMin;
     const viewHeight = 500;

@@ -1,3 +1,4 @@
+import { trimNumber } from "./util";
 
 export default function Diagram ({ real_time, statistics, coils, discrete, status }) {
 
@@ -285,9 +286,4 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
     }
     </svg>
   );
-}
-
-function trimNumber (n, places = 2) {
-   if (n === 0) return "0";
-   return n.toFixed(places).replace(/[.0]+$/, "");
 }

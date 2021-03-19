@@ -3,6 +3,7 @@ import { GraphController } from './Graph';
 import Icon from './Icon';
 import Parameters from './Parameters';
 import "./Dashboard.css";
+import { trimNumber } from './util';
 
 function Dashboard ({ data, dataLog, setLoad = null }) {
 
@@ -50,14 +51,14 @@ function Dashboard ({ data, dataLog, setLoad = null }) {
             <input readOnly id="battery_voltage" value={data.real_time.battery_voltage} />
           </div>
           <div className="data-box">
-            <label htmlFor="battery_charging_current">Battery Current (A)</label>
+            <label htmlFor="net_battery_current">Net Battery Current (A)</label>
             <Icon name="current" />
-            <input readOnly id="battery_charging_current" value={data.real_time.battery_charging_current} />
+            <input readOnly id="net_battery_current" value={data.statistics.net_battery_current} />
           </div>
           <div className="data-box">
-            <label htmlFor="battery_charging_power">Battery Power (W)</label>
+            <label htmlFor="net_battery_power">Net Battery Power (W)</label>
             <Icon name="power" />
-            <input readOnly id="battery_charging_power" value={data.real_time.battery_charging_power} />
+            <input readOnly id="net_battery_power" value={trimNumber(data.real_time.battery_voltage * data.statistics.net_battery_current)} />
           </div>
           <div className="data-box">
             <label htmlFor="max_battery_voltage_today">Max Voltage (V)</label>
