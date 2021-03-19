@@ -34,8 +34,9 @@ const colours = ["#ff0000","#00ff00","#0000ff"];
  * @param {object} param0
  * @param {DataPoint[]} param0.log
  * @param {string} param0.page
+ * @param {import("react").CSSProperties} [param0.style]
  */
-export function SingleGraph ({ log, page }) {
+export function SingleGraph ({ log, page, style = null }) {
     const duration = 60 * 60 * 1000; // 1 hour
 
     const cutOff = Date.now() - duration;
@@ -46,7 +47,7 @@ export function SingleGraph ({ log, page }) {
 
     const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
 
-    return <Graph data={allSeries} labels={labels} duration={duration} />;
+    return <Graph data={allSeries} labels={labels} duration={duration} style={style} />;
 }
 
 /** @typedef {[string, ...number[]]} DataPoint */
@@ -58,8 +59,9 @@ export function SingleGraph ({ log, page }) {
  * @param {string[]} param0.labels
  * @param {number} [param0.width]
  * @param {number} [param0.height]
+ * @param {import("react").CSSProperties} [param0.style]
  */
-export function Graph ({ data, duration, labels, width = 500, height = 300 }) {
+export function Graph ({ data, duration, labels, width = 500, height = 300, style = null }) {
     /** @type {import("react").MutableRefObject<HTMLCanvasElement>} */
     const canvasRef = useRef();
 
@@ -96,6 +98,7 @@ export function Graph ({ data, duration, labels, width = 500, height = 300 }) {
                 ctx.lineTo(innerWidth, innerHeight - (i - minVal) * yScale);
             }
             ctx.lineWidth = 0.5;
+            ctx.strokeStyle = "#666";
             ctx.stroke();
             // Axes
             ctx.beginPath();
@@ -107,6 +110,7 @@ export function Graph ({ data, duration, labels, width = 500, height = 300 }) {
             // Axis Labels
             const fontSize = 9 * devicePixelRatio;
             ctx.font = `${fontSize}pt sans-serif`;
+            ctx.fillStyle = "#666";
             ctx.textAlign = "right";
             if (minVal !== 0) {
                 ctx.fillText("0", -0.5 * fontSize, innerHeight - (-minVal) * yScale);
@@ -147,7 +151,9 @@ export function Graph ({ data, duration, labels, width = 500, height = 300 }) {
         }
     }, [data, labels, duration, height, width]);
 
-    return <canvas ref={canvasRef} style={{ width, maxWidth: "100%" }} />;
+    const s = { ...{ width, maxWidth: "100%" }, ...style };
+
+    return <canvas ref={canvasRef} style={s} />;
 }
 
 function drawLine(ctx, xValues, yValues, graphParams, colour) {

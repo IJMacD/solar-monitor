@@ -1,11 +1,11 @@
 .Icon {
-    width: 24px;
-    height: 24px;
+    width: 0.8em;
+    height: 0.8em;
 }
 
 @media (min-width: 1200px) {
     .Icon {
-        width: 32px;
-        height: 32px;
+        width: 1em;
+        height: 1em;
     }
 }
