@@ -27,7 +27,7 @@
 }
 
 @media (min-width: 1200px) {
-    input {
+    .Dashboard input {
         width: 159px;
     }
 }

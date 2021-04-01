@@ -9,53 +9,53 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
       height={452.367}
       viewBox="0 0 198.622 119.689"
     >
-    <defs>
-      <marker
-        id="prefix__c"
-        refX={0}
-        refY={0}
-        orient="auto"
-        overflow="visible"
-      >
-        <path
-          d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
-          fillRule="evenodd"
-          stroke="#000"
-          strokeWidth={0.1875}
-          strokeLinejoin="round"
-        />
-      </marker>
-      <marker
-        orient="auto"
-        refY={0}
-        refX={0}
-        id="prefix__b"
-        overflow="visible"
-      >
-        <path
-          d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
-          fillRule="evenodd"
-          stroke="#000"
-          strokeWidth={0.1875}
-          strokeLinejoin="round"
-        />
-      </marker>
-      <marker
-        orient="auto"
-        refY={0}
-        refX={0}
-        id="prefix__a"
-        overflow="visible"
-      >
-        <path
-          d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
-          fillRule="evenodd"
-          stroke="#000"
-          strokeWidth={0.1875}
-          strokeLinejoin="round"
-        />
-      </marker>
-    </defs>
+      <defs>
+        <marker
+          orient="auto"
+          refY={0}
+          refX={0}
+          id="prefix__c"
+          overflow="visible"
+        >
+          <path
+            d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
+            fillRule="evenodd"
+            stroke="#000"
+            strokeWidth={0.1875}
+            strokeLinejoin="round"
+          />
+        </marker>
+        <marker
+          id="prefix__b"
+          refX={0}
+          refY={0}
+          orient="auto"
+          overflow="visible"
+        >
+          <path
+            d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
+            fillRule="evenodd"
+            stroke="#000"
+            strokeWidth={0.1875}
+            strokeLinejoin="round"
+          />
+        </marker>
+        <marker
+          id="prefix__a"
+          refX={0}
+          refY={0}
+          orient="auto"
+          overflow="visible"
+        >
+          <path
+            d="M-1.926-1.21L1.352-.005l-3.278 1.206a2.05 2.05 0 000-2.411z"
+            fillRule="evenodd"
+            stroke="#000"
+            strokeWidth={0.1875}
+            strokeLinejoin="round"
+          />
+        </marker>
+      </defs>
       <path
         fill="#002"
         fillOpacity={0.651}
@@ -80,6 +80,32 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
         strokeWidth={3}
         transform="matrix(.31867 0 .12235 .31867 4.709 23.045)"
       />
+      { status.charging_status.pv_voltage_status !== "NORMAL" &&
+        <text
+          transform="matrix(.31867 0 0 .31867 4.709 23.045)"
+          style={{
+            lineHeight: 1.25,
+          }}
+          x={105.78}
+          y={35.184}
+          fontWeight={900}
+          fontSize={35.425}
+          fontFamily="Arial"
+          letterSpacing={0}
+          wordSpacing={0}
+          fill="red"
+        >
+          <tspan
+            dy={0}
+            x={105.78}
+            y={35.184}
+            fontWeight={700}
+            fontFamily="Berlin Sans FB Demi"
+          >
+            {"\u26A0\uFE0F"}
+          </tspan>
+        </text>
+      }
       <g transform="translate(56.813 7.427) scale(.77114)">
         <path
           fill="#ccc"
@@ -91,25 +117,29 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
           d="M45.124 31.887h36.425v19.881H45.124z"
         />
         <path fill="green" d="M50.129 47.319h22.384v2.224H50.129z" />
-        <circle r={0.861} cy={40.65} cx={73.973} fill="#00f" />
-        <circle cx={52.418} cy={37.426} r={1.039} fill="#0f0" />
-        <circle r={1.039} cy={37.426} cx={55.593} fill="#0f0" />
+        <circle cx={73.973} cy={40.65} r={0.861} fill="#00f" />
+        <circle r={1.039} cy={37.426} cx={52.418} fill="#0f0" />
+        <circle cx={55.593} cy={37.426} r={1.039} fill="#0f0" />
         { status.charging_status.fault &&
           <text
-            x={66.613}
             y={31.705}
+            x={66.613}
+            style={{
+              lineHeight: 1.25,
+            }}
             fontWeight={900}
             fontSize={14.639}
             fontFamily="Arial"
             letterSpacing={0}
             wordSpacing={0}
             fill="red"
-            strokeWidth={0.343}
           >
             <tspan
-              dy={0}
-              x={66.613}
               y={31.705}
+              x={66.613}
+              dy={0}
+              fontWeight={700}
+              fontFamily="Berlin Sans FB Demi"
             >
               {"\u26A0\uFE0F"}
             </tspan>
@@ -134,10 +164,10 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
       />
       <g transform="translate(14.737 1.165)" stroke="#000">
         <ellipse
-          ry={7.149}
-          rx={7.717}
-          cy={33.777}
           cx={155.48}
+          cy={33.777}
+          rx={7.717}
+          ry={7.149}
           fill={coils.manual_control_load?"#ff0":"#fff"}
           strokeWidth={0.5}
           strokeLinejoin="bevel"
@@ -174,11 +204,11 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
         transform="translate(14.737 -5.714)"
       />
       <text
+        y={40.595}
+        x={43.845}
         style={{
           lineHeight: 1.25,
         }}
-        x={43.845}
-        y={40.595}
         fontWeight={400}
         fontSize={9}
         fontFamily="Algerian"
@@ -187,16 +217,16 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
         strokeWidth={0.265}
         transform="translate(14.737 -5.714)"
       >
-        <tspan x={43.845} y={40.595}>
+        <tspan y={40.595} x={43.845}>
           { real_time.pv_power } W
         </tspan>
       </text>
       <text
-        y={40.595}
-        x={114.149}
         style={{
           lineHeight: 1.25,
         }}
+        x={114.149}
+        y={40.595}
         fontWeight={400}
         fontSize={9}
         fontFamily="Algerian"
@@ -205,16 +235,16 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
         strokeWidth={0.265}
         transform="translate(14.737 -5.714)"
       >
-        <tspan y={40.595} x={114.149}>
+        <tspan x={114.149} y={40.595}>
           { real_time.load_power } W
         </tspan>
       </text>
       <text
+        y={74.159}
+        x={101.298}
         style={{
           lineHeight: 1.25,
         }}
-        x={101.298}
-        y={74.159}
         fontWeight={400}
         fontSize={9}
         fontFamily="Algerian"
@@ -223,7 +253,7 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
         strokeWidth={0.265}
         transform="translate(14.737 -5.714)"
       >
-        <tspan x={101.298} y={74.159}>
+        <tspan y={74.159} x={101.298}>
           { trimNumber(Math.abs(real_time.battery_voltage * statistics.net_battery_current)) } W
         </tspan>
       </text>
@@ -264,7 +294,34 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
         />
         <path
           d="M104.428 93.14h3.369l-1.826 3.741h2.017l-3.551 5.363.204-5.387h-1.936z"
+          fill="currentColor"
         />
+        { status.battery_status.battery_status_voltage !== "NORMAL" &&
+          <text
+            style={{
+              lineHeight: 1.25,
+            }}
+            x={97.638}
+            y={90.101}
+            fontWeight={900}
+            fontSize={11.289}
+            fontFamily="Arial"
+            letterSpacing={0}
+            wordSpacing={0}
+            fill="red"
+            transform="translate(14.737 1.165)"
+          >
+            <tspan
+              dy={0}
+              x={97.638}
+              y={90.101}
+              fontWeight={700}
+              fontFamily="Berlin Sans FB Demi"
+            >
+              {"\u26A0\uFE0F"}
+            </tspan>
+          </text>
+        }
       </g>
       { discrete.day_night === 0 &&
         <path
@@ -274,16 +331,16 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
       }
       { discrete.day_night === 1 &&
         <g transform="matrix(.6832 0 0 .6832 26.148 1.212)">
-          <circle cx={23.788} cy={17.09} r={7.918} fill="#e6e6e6" />
+          <circle r={7.918} cy={17.09} cx={23.788} fill="#e6e6e6" />
           <path d="M21.304 24.609a7.918 7.918 0 01-5.208-9.395 7.918 7.918 0 018.949-5.941l-1.257 7.817z" />
         </g>
       }
       { discrete.day_night === 0 && status.charging_status.charging_phase === "NOT_CHARGING" &&
-      <path
-        d="M36.549 9.418a5.84 5.84 0 00-5.6 4.23 6.408 6.408 0 00-2.848-.668 6.408 6.408 0 00-6.408 6.408 6.408 6.408 0 006.408 6.408 6.408 6.408 0 00.316-.008.506.506 0 00.081.008h13.667c.08 0 .155-.02.223-.053a5.217 5.217 0 004.937-5.21 5.217 5.217 0 00-4.923-5.209 5.84 5.84 0 000-.065 5.84 5.84 0 00-5.84-5.84 5.84 5.84 0 00-.013 0z"
-        fill="#a2a2a2"
-      />
-    }
+        <path
+          d="M36.549 9.418a5.84 5.84 0 00-5.6 4.23 6.408 6.408 0 00-2.848-.668 6.408 6.408 0 00-6.408 6.408 6.408 6.408 0 006.408 6.408 6.408 6.408 0 00.316-.008.506.506 0 00.081.008h13.667c.08 0 .155-.02.223-.053a5.217 5.217 0 004.937-5.21 5.217 5.217 0 00-4.923-5.209 5.84 5.84 0 000-.065 5.84 5.84 0 00-5.84-5.84 5.84 5.84 0 00-.013 0z"
+          fill="#a2a2a2"
+        />
+      }
     </svg>
   );
 }

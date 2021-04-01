@@ -43,6 +43,10 @@ export function SingleGraph ({ log, page, style = null }) {
 
     const filteredLog = log.filter(e => +new Date(e[0]) > cutOff);
 
+    if (filteredLog.length === 0) {
+        return null;
+    }
+
     const allSeries = getAllSeries(filteredLog, page);
 
     const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
