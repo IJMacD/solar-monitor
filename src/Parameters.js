@@ -6,7 +6,7 @@ export default function Parameters ({ real_time, settings }) {
     const viewWidth = 1000;
     const vScale = viewHeight / vRange;
     const height = 400;
-    const width = 800;
+    const width = null;
 
     function getY (voltage) {
         return viewHeight - (voltage - vMin) * vScale;

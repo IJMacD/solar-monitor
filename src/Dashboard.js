@@ -188,13 +188,13 @@ function Dashboard ({ data, dataLog, setLoad = null }) {
           <GraphController log={dataLog} />
         </div>
       </div>
-      <div>
-        <h2 style={{marginLeft: "1.5em"}}>Limits</h2>
-        <Parameters { ...data } />
-      </div>
-      <div>
+      <div style={{ display: 'inline-block'}}>
         <h2 style={{marginLeft: "1.5em"}}>States</h2>
         <States { ...data } />
+      </div>
+      <div style={{ display: 'inline-block'}}>
+        <h2 style={{marginLeft: "1.5em"}}>Limits</h2>
+        <Parameters { ...data } />
       </div>
     </div>
   );
