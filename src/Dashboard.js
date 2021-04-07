@@ -2,6 +2,7 @@ import Diagram from './Diagram';
 import { GraphController } from './Graph';
 import Icon from './Icon';
 import Parameters from './Parameters';
+import States from './States';
 import "./Dashboard.css";
 import { trimNumber } from './util';
 
@@ -187,8 +188,14 @@ function Dashboard ({ data, dataLog, setLoad = null }) {
           <GraphController log={dataLog} />
         </div>
       </div>
-      <h2 style={{marginLeft: "1.5em"}}>Limits</h2>
-      <Parameters { ...data } />
+      <div>
+        <h2 style={{marginLeft: "1.5em"}}>Limits</h2>
+        <Parameters { ...data } />
+      </div>
+      <div>
+        <h2 style={{marginLeft: "1.5em"}}>States</h2>
+        <States { ...data } />
+      </div>
     </div>
   );
 }
