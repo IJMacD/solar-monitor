@@ -36,10 +36,10 @@ export default function States ({ real_time, status, settings }) {
 
     return (
         <svg viewBox={`0 0 ${viewWidth} ${viewHeight}`} style={{ width, height }}>
-            <State type="over"  title="Over Voltage"    altState={battery_status_voltage === "OVER_VOLTAGE"}    setPoints={over1}  voltage={real_time.battery_voltage} settings={settings} x={75} getY={getY} />
-            <State type="under" title="Low Voltage"     altState={battery_status_voltage === "LOW_VOLTAGE"}     setPoints={under1} voltage={real_time.battery_voltage} settings={settings} x={75} getY={getY} />
+            <State type="over"  title="Over Voltage"    altState={battery_status_voltage === "OVER_VOLT"}    setPoints={over1}  voltage={real_time.battery_voltage} settings={settings} x={75} getY={getY} />
+            <State type="under" title="Low Voltage"     altState={battery_status_voltage === "LOW_DISCONNECT"}     setPoints={under1} voltage={real_time.battery_voltage} settings={settings} x={75} getY={getY} />
             <State type="under" title="Boost"           altState={charging_phase === "BOOST"}                   setPoints={under2} voltage={real_time.battery_voltage} settings={settings} x={225} getY={getY} />
-            <State type="under" title="Under Voltage"   altState={battery_status_voltage === "UNDER_VOLTAGE"}   setPoints={under3} voltage={real_time.battery_voltage} settings={settings} x={375} getY={getY} />
+            <State type="under" title="Under Voltage"   altState={battery_status_voltage === "UNDER_VOLT"}   setPoints={under3} voltage={real_time.battery_voltage} settings={settings} x={375} getY={getY} />
         </svg>
     );
 }
