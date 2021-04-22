@@ -2,6 +2,11 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
+require "TaskScheduler.php";
+require_once "vendor/autoload.php";
+
+$scheduler = new TaskScheduler();
+
 $method = "";
 
 if (isset($_SERVER['REQUEST_URI'])) {
@@ -19,7 +24,6 @@ if ($method === "data") {
     exit;
 } else if ($method === "control") {
     if (isset($_REQUEST['load'])) {
-        require_once "vendor/autoload.php";
 
         $tracer = new PhpEpsolarTracer();
 
@@ -73,4 +77,10 @@ function getMime ($filename) {
 
         return false;
     }
+}
+
+function set_load ($value) {
+    $tracer = new PhpEpsolarTracer();
+
+    $tracer->setCoilData(2, $value);
 }
