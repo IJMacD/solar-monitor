@@ -62,7 +62,7 @@ class TaskScheduler {
 
             $line = $job['date'] . " " . $callable;
 
-            if (count($job['args']) > 0) {
+            if (is_array($job['args']) && count($job['args']) > 0) {
                 $line .= " -- " . implode(" ", $job['args']);
             }
 
@@ -107,6 +107,17 @@ class TaskScheduler {
     function schedule ($time_spec, $callable, $args = []) {
         $time = strtotime($time_spec);
 
+        // Ensure it's in the future (up to 10 retries)
+        $now = time();
+        $i = 0;
+        while ($time < $now && $i++ < 10) {
+            $time = strtotime($time_spec, $now + $i * 86400);
+        }
+
+        if (!is_array($args)) {
+            $args = [ $args ];
+        }
+
         $this->jobs[] = [
             "date" => date("c", $time),
             "task" => $callable,
@@ -114,6 +125,10 @@ class TaskScheduler {
         ];
 
         $this->writeJobs();
+    }
+
+    function list () {
+        return $this->jobs;
     }
 
     static function test () {

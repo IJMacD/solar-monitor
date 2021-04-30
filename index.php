@@ -5,6 +5,8 @@ ini_set("display_errors", 1);
 require "TaskScheduler.php";
 require_once "vendor/autoload.php";
 
+// Instantiating the class is enough to run any scheduled tasks during destruction
+// i.e. this line has side-effects
 $scheduler = new TaskScheduler();
 
 $method = "";
@@ -31,6 +33,19 @@ if ($method === "data") {
 
         header("Access-Control-Allow-Origin: *");
         echo "done";
+    }
+} else if ($method === "schedule") {
+    if (isset($_REQUEST['load']) && isset($_REQUEST['time'])) {
+
+        $scheduler->schedule($_REQUEST['time'], "set_load", [ $_REQUEST['load'] ]);
+
+        header("Access-Control-Allow-Origin: *");
+        echo "done";
+    } else {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+
+        echo json_encode($scheduler->list(), JSON_NUMERIC_CHECK);
     }
 } else if ($method === "") {
     header("Content-Type: text/html");
@@ -80,6 +95,10 @@ function getMime ($filename) {
 }
 
 function set_load ($value) {
+    if ($value === "off") {
+        $value = false;
+    }
+
     $tracer = new PhpEpsolarTracer();
 
     $tracer->setCoilData(2, $value);
