@@ -196,6 +196,25 @@ function Dashboard ({ data, dataLog, setLoad = null }) {
         <h2 style={{marginLeft: "1.5em"}}>Limits</h2>
         <Parameters { ...data } />
       </div>
+      <div style={{ display: 'inline-block', width: 300 }}>
+        <h2 style={{marginLeft: "1.5em"}}>Rating</h2>
+
+        <fieldset>
+            <legend>Battery</legend>
+            <div className="data-box">
+              <label htmlFor="battery_capacity">Capacity (Ah)</label>
+              <input readOnly id="battery_capacity" value={data.settings.battery_capacity} />
+            </div>
+            <div className="data-box">
+              <label htmlFor="system_rated_voltage">Rated Voltage (V)</label>
+              <input readOnly id="system_rated_voltage" value={data.real_time.system_rated_voltage} />
+            </div>
+            <div className="data-box">
+              <label htmlFor="battery_capacity_wh">Capacity (Wh)</label>
+              <input readOnly id="battery_capacity_wh" value={data.settings.battery_capacity * data.real_time.system_rated_voltage} />
+            </div>
+          </fieldset>
+      </div>
     </div>
   );
 }
