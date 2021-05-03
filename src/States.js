@@ -34,12 +34,14 @@ export default function States ({ real_time, status, settings }) {
         [ "under_voltage_warning", "Under Voltage Warning" ],
     ];
 
+    const voltage = real_time.battery_voltage;
+
     return (
         <svg viewBox={`0 0 ${viewWidth} ${viewHeight}`} style={{ width, height }}>
-            <State type="over"  title="Over Voltage"    altState={battery_status_voltage === "OVER_VOLT"}    setPoints={over1}  voltage={real_time.battery_voltage} settings={settings} x={75} getY={getY} />
-            <State type="under" title="Low Voltage"     altState={battery_status_voltage === "LOW_DISCONNECT"}     setPoints={under1} voltage={real_time.battery_voltage} settings={settings} x={75} getY={getY} />
-            <State type="under" title="Boost"           altState={charging_phase === "BOOST"}                   setPoints={under2} voltage={real_time.battery_voltage} settings={settings} x={225} getY={getY} />
-            <State type="under" title="Under Voltage"   altState={battery_status_voltage === "UNDER_VOLT"}   setPoints={under3} voltage={real_time.battery_voltage} settings={settings} x={375} getY={getY} />
+            <State type="over"  title="Over Voltage"    altState={battery_status_voltage === "OVER_VOLT"}       setPoints={over1}  voltage={voltage} settings={settings} x={75} getY={getY} />
+            <State type="under" title="Low Voltage"     altState={battery_status_voltage === "LOW_DISCONNECT"}  setPoints={under1} voltage={voltage} settings={settings} x={75} getY={getY} />
+            <State type="under" title="Boost"           altState={charging_phase === "BOOST"}                   setPoints={under2} voltage={voltage} settings={settings} x={225} getY={getY} />
+            <State type="under" title="Under Voltage"   altState={battery_status_voltage === "UNDER_VOLT"}      setPoints={under3} voltage={voltage} settings={settings} x={375} getY={getY} />
         </svg>
     );
 }
@@ -65,7 +67,7 @@ function State ({ type, title, altState, setPoints, x: baseX = 0, y: baseY = 0, 
             if (voltage <= lowStepVoltage) {
                 x = w;
             } else if (voltage < highVoltage) {
-                const t = (voltage - lowStepVoltage) / (highVoltage - lowStepVoltage);
+                const t = (highVoltage - voltage) / (highVoltage - lowStepVoltage);
                 x = w * t;
             } else {
                 x = 0;
@@ -125,7 +127,7 @@ function State ({ type, title, altState, setPoints, x: baseX = 0, y: baseY = 0, 
                 <>
                     <path transform={`translate(${baseX + x}, ${baseY + getY(voltage)})`} d="M -7 0 L 0 7 L 7 0 L 0 -7 Z" fill="#f00" />
                     {
-                        (altState === flip) ?
+                        altState ?
                             <text x={baseX + x + 10} y={baseY + getY(voltage) + 5} textAnchor="start" fill="#f00">{voltage} V</text>
                             :
                             <text x={baseX + x - 10} y={baseY + getY(voltage) + 5} textAnchor="end" fill="#f00">{voltage} V</text>
