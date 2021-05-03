@@ -5,6 +5,8 @@ ini_set("display_errors", 1);
 require "TaskScheduler.php";
 require_once "vendor/autoload.php";
 
+date_default_timezone_set("Asia/Hong_Kong");
+
 // Instantiating the class is enough to run any scheduled tasks during destruction
 // i.e. this line has side-effects
 $scheduler = new TaskScheduler();
