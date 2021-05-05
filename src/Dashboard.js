@@ -200,7 +200,7 @@ function Dashboard ({ data, dataLog, setLoad = null, schedule = [], onScheduleSe
           <Diagram { ...data } />
         </div>
         <div className="graph">
-          <GraphController log={dataLog} />
+          <GraphController log={dataLog} limits={[data.settings.boost_voltage,data.settings.low_voltage_disconnect,data.settings.high_voltage_disconnect]} />
         </div>
       </div>
 
@@ -244,13 +244,13 @@ function Dashboard ({ data, dataLog, setLoad = null, schedule = [], onScheduleSe
             }
           </ul>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} style={{ padding: "1em" }}>
             <label>
-              <span>Date</span>
+              <div>Date</div>
               <input type="datetime-local" name="date" />
             </label>
             <label>
-              <span>Load</span>
+              <div>Load</div>
               <select name="load">
                 <option>on</option>
                 <option>off</option>

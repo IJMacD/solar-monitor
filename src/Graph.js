@@ -12,8 +12,9 @@ const colours = ["#ff0000","#00ff00","#0000ff"];
  *
  * @param {object} param0
  * @param {any[]} param0.log
+ * @param {number[]} param0.limits
  */
- export function GraphController ({ log }) {
+ export function GraphController ({ log, limits = [] }) {
     const [ page, setPage ] = useState("voltage");
 
     if (log.length < 1) {
@@ -25,7 +26,7 @@ const colours = ["#ff0000","#00ff00","#0000ff"];
             {
                 pages.map(p => <button key={p} onClick={() => setPage(p)} style={{fontWeight:page===p?"bold":"normal"}}>{ucFirst(p)}</button>)
             }
-            <SingleGraph log={log} page={page} />
+            <SingleGraph log={log} page={page} limits={page === "voltage" ? limits : []} />
         </div>
     )
 }
@@ -35,8 +36,9 @@ const colours = ["#ff0000","#00ff00","#0000ff"];
  * @param {DataPoint[]} param0.log
  * @param {string} param0.page
  * @param {import("react").CSSProperties} [param0.style]
+ * @param {number[]} param0.limits
  */
-export function SingleGraph ({ log, page, style = null }) {
+export function SingleGraph ({ log, page, style = null, limits = [] }) {
     const duration = 60 * 60 * 1000; // 1 hour
 
     const cutOff = Date.now() - duration;
@@ -51,7 +53,7 @@ export function SingleGraph ({ log, page, style = null }) {
 
     const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
 
-    return <Graph data={allSeries} labels={labels} duration={duration} style={style} />;
+    return <Graph data={allSeries} labels={labels} duration={duration} style={style} limits={limits} />;
 }
 
 /** @typedef {[string, ...number[]]} DataPoint */
@@ -64,8 +66,9 @@ export function SingleGraph ({ log, page, style = null }) {
  * @param {number} [param0.width]
  * @param {number} [param0.height]
  * @param {import("react").CSSProperties} [param0.style]
+ * @param {number[]} [param0.limits]
  */
-export function Graph ({ data, duration, labels, width = 500, height = 300, style = null }) {
+export function Graph ({ data, duration, labels, width = 500, height = 300, style = null, limits = [] }) {
     /** @type {import("react").MutableRefObject<HTMLCanvasElement>} */
     const canvasRef = useRef();
 
@@ -128,6 +131,18 @@ export function Graph ({ data, duration, labels, width = 500, height = 300, styl
             ctx.textAlign = "left";
             ctx.fillText(formatter.format(timeStart), 0, innerHeight + fontSize * 1.2);
 
+            // Limit Lines
+            ctx.strokeStyle = "#f00";
+            ctx.lineWidth = 0.5;
+            ctx.setLineDash([4,4]);
+            ctx.beginPath();
+            for (const limit of limits) {
+                ctx.moveTo(0, innerHeight - (limit - minVal) * yScale);
+                ctx.lineTo(innerWidth, innerHeight - (limit - minVal) * yScale);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
             const now = Date.now();
 
             // Data Lines
@@ -153,7 +168,7 @@ export function Graph ({ data, duration, labels, width = 500, height = 300, styl
                 ctx.fillText(label, innerWidth + (padding * 2) + keyLineWidth, i * lineHeight + (lineHeight / 2));
             });
         }
-    }, [data, labels, duration, height, width]);
+    }, [data, labels, duration, height, width, limits]);
 
     const s = { ...{ width, maxWidth: "100%" }, ...style };
 
