@@ -6,7 +6,22 @@ import States from './States';
 import "./Dashboard.css";
 import { trimNumber } from './util';
 
-function Dashboard ({ data, dataLog, setLoad = null }) {
+function Dashboard ({ data, dataLog, setLoad = null, schedule = [], onScheduleSet = null }) {
+
+  /**
+   * @param {import('react').FormEvent<HTMLFormElement>} e
+   */
+  function handleSubmit (e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const date = formData.get("date");
+    const load = formData.get("load");
+
+    onScheduleSet(date, load);
+
+    e.currentTarget.reset();
+  }
 
   return (
     <div className="Dashboard">
@@ -188,32 +203,62 @@ function Dashboard ({ data, dataLog, setLoad = null }) {
           <GraphController log={dataLog} />
         </div>
       </div>
-      <div style={{ display: 'inline-block'}}>
-        <h2 style={{marginLeft: "1.5em"}}>States</h2>
-        <States { ...data } />
-      </div>
-      <div style={{ display: 'inline-block'}}>
-        <h2 style={{marginLeft: "1.5em"}}>Limits</h2>
-        <Parameters { ...data } />
-      </div>
-      <div style={{ display: 'inline-block', width: 300 }}>
-        <h2 style={{marginLeft: "1.5em"}}>Rating</h2>
 
-        <fieldset>
-            <legend>Battery</legend>
-            <div className="data-box">
-              <label htmlFor="battery_capacity">Capacity (Ah)</label>
-              <input readOnly id="battery_capacity" value={data.settings.battery_capacity} />
-            </div>
-            <div className="data-box">
-              <label htmlFor="system_rated_voltage">Rated Voltage (V)</label>
-              <input readOnly id="system_rated_voltage" value={data.real_time.system_rated_voltage} />
-            </div>
-            <div className="data-box">
-              <label htmlFor="battery_capacity_wh">Capacity (Wh)</label>
-              <input readOnly id="battery_capacity_wh" value={data.settings.battery_capacity * data.real_time.system_rated_voltage} />
-            </div>
-          </fieldset>
+      <div className="third-panel" style={{ display: "flex", flexWrap: "wrap" }}>
+        <div style={{ }}>
+          <h2 style={{marginLeft: "1.5em"}}>States</h2>
+          <States { ...data } />
+        </div>
+
+        <div style={{ }}>
+          <h2 style={{marginLeft: "1.5em"}}>Limits</h2>
+          <Parameters { ...data } />
+        </div>
+
+        <div style={{ width: 300 }}>
+          <h2 style={{marginLeft: "1.5em"}}>Rating</h2>
+
+          <fieldset>
+              <legend>Battery</legend>
+              <div className="data-box">
+                <label htmlFor="battery_capacity">Capacity (Ah)</label>
+                <input readOnly id="battery_capacity" value={data.settings.battery_capacity} />
+              </div>
+              <div className="data-box">
+                <label htmlFor="system_rated_voltage">Rated Voltage (V)</label>
+                <input readOnly id="system_rated_voltage" value={data.real_time.system_rated_voltage} />
+              </div>
+              <div className="data-box">
+                <label htmlFor="battery_capacity_wh">Capacity (Wh)</label>
+                <input readOnly id="battery_capacity_wh" value={data.settings.battery_capacity * data.real_time.system_rated_voltage} />
+              </div>
+            </fieldset>
+        </div>
+
+        <div style={{  }}>
+          <h2 style={{marginLeft: "1.5em"}}>Schedule</h2>
+
+          <ul>
+            {
+              schedule.map((item,i) => <li key={i}>{item.date} {item.task} {item.args.join(" ")}</li>)
+            }
+          </ul>
+
+          <form onSubmit={handleSubmit}>
+            <label>
+              <span>Date</span>
+              <input type="datetime-local" name="date" />
+            </label>
+            <label>
+              <span>Load</span>
+              <select name="load">
+                <option>on</option>
+                <option>off</option>
+              </select>
+            </label>
+            <button>Add</button>
+          </form>
+        </div>
       </div>
     </div>
   );

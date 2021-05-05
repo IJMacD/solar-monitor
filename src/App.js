@@ -3,22 +3,34 @@ import './App.css';
 import Dashboard from './Dashboard';
 import SofaMode from './SofaMode';
 
-const endpoint = process.env.REACT_APP_DATA_ENDPOINT;
-const isControllable = typeof process.env.REACT_APP_CONTROL_ENDPOINT === "string";
+const endpoint = process.env.REACT_APP_API_ENDPOINT;
+const isControllable = typeof process.env.REACT_APP_API_ENDPOINT === "string";
 
 function App() {
   const [data, setData] = useState(null);
   const [dataLog, setDataLog] = useState([]);
+  const [ schedule, setSchedule ] = useState([]);
   const [ page, setPage ] = useState("dashboard");
 
-  useEffect(fetchData, []);
-
+  // Fetch Live Data
   useEffect(() => {
+    fetchData();
+
     const interval_id = setInterval(fetchData, 30 * 1000);
 
     return () => clearInterval(interval_id);
   }, []);
 
+  // Fetch Schedule Data
+  useEffect(() => {
+    fetchScheduleData();
+
+    const interval_id = setInterval(fetchScheduleData, 5 * 60 * 1000);
+
+    return () => clearInterval(interval_id);
+  }, []);
+
+  // Log Live Data
   useEffect(() => {
     if (data) {
       const newPoint = [
@@ -50,23 +62,36 @@ function App() {
 
   return (
     <div className="App">
-      <Dashboard data={data} dataLog={dataLog} setLoad={isControllable ? setLoad : null} />
+      <Dashboard data={data} dataLog={dataLog} setLoad={isControllable ? setLoad : null} schedule={schedule} onScheduleSet={scheduleLoad} />
       <button onClick={() => setPage("sofa")}>Sofa</button>
       <p>Clone on <a href="https://github.com/IJMacD/epsolar-app">GitHub</a>.</p>
     </div>
   );
 
   function fetchData() {
-    fetch(endpoint).then(r => r.json()).then(setData);
+    fetch(`${endpoint}/data`).then(r => r.json()).then(setData);
+  }
+
+  function fetchScheduleData() {
+    fetch(`${endpoint}/schedule`).then(r => r.json()).then(setSchedule);
   }
 
   function setLoad (on) {
     const body = new URLSearchParams({ load: on ? "1" : "0" });
 
-    fetch(process.env.REACT_APP_CONTROL_ENDPOINT, {
+    fetch(`${endpoint}/control`, {
       method: "post",
       body
     }).then(fetchData);
+  }
+
+  function scheduleLoad (date, load) {
+    const body = new URLSearchParams({ time: `${date}:00+08:00`, load });
+
+    fetch(`${endpoint}/schedule`, {
+      method: "post",
+      body
+    }).then(fetchScheduleData);
   }
 }
 
