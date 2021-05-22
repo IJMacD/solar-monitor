@@ -7,6 +7,9 @@ require_once "vendor/autoload.php";
 
 date_default_timezone_set("Asia/Hong_Kong");
 
+// define("MODBUS_HOST", "192.168.64.178");
+define("MODBUS_HOST", "HF-EW11");
+
 // Instantiating the class is enough to run any scheduled tasks during destruction
 // i.e. this line has side-effects
 $scheduler = new TaskScheduler();
@@ -24,14 +27,20 @@ if (isset($_SERVER['REQUEST_URI'])) {
 }
 
 if ($method === "data") {
-    require "vendor/ijmacd/phpepsolartracer/example_json.php";
-    exit;
+    $modbus = new ModbusMaster(MODBUS_HOST, "TCP");
+    $tracer = new TCPTracer($modbus);
+
+    header("Access-Control-Allow-Origin: *");
+    header("Content-Type: application/json");
+    echo $tracer->json();
+
 } else if ($method === "control") {
     if (isset($_REQUEST['load'])) {
 
-        $tracer = new PhpEpsolarTracer();
+        $modbus = new ModbusMaster(MODBUS_HOST, "TCP");
+        $tracer = new TCPTracer($modbus);
 
-        $tracer->setCoilData(2, $_REQUEST['load']);
+        $tracer->setCoilData(2, $_REQUEST['load'] === "1" || $_REQUEST['load'] === "on");
 
         header("Access-Control-Allow-Origin: *");
         echo "done";
@@ -101,7 +110,8 @@ function set_load ($value) {
         $value = false;
     }
 
-    $tracer = new PhpEpsolarTracer();
+    $modbus = new ModbusMaster(MODBUS_HOST, "TCP");
+    $tracer = new TCPTracer($modbus);
 
     $tracer->setCoilData(2, $value);
 }
