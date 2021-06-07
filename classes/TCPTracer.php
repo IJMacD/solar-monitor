@@ -15,6 +15,7 @@ class TCPTracer {
     function getAllData () {
         $real_time = $this->getRealtimeData();
         $settings = $this->getSettingData();
+        $coils = $this->getCoilData();
 
         return [
             "info"          => $this->getInfoData(),
@@ -22,13 +23,13 @@ class TCPTracer {
             "real_time" 	=> $real_time,
             "statistics" 	=> $this->getStatData(),
             "settings" 		=> $settings,
-            "coils" 		=> $this->getCoilData(),
+            "coils" 		=> $coils,
             "discrete" 		=> $this->getDiscreteData(),
-            "status"        => $this->makeStatusData($real_time, $settings),
+            "status"        => $this->makeStatusData($real_time, $settings, $coils),
         ];
     }
 
-    function makeStatusData ($real_time, $settings) {
+    private function makeStatusData ($real_time, $settings, $coils) {
 
         $batt_status = $real_time['battery_status'];
         $charge_status = $real_time['equipment_status'];
@@ -61,6 +62,13 @@ class TCPTracer {
             "ERROR"
         )[($charge_status >> 14) & 3];
 
+        $load_control_mode = array(
+            "MANUAL",
+            "LIGHT",
+            "LIGHT_TIME",
+            "TIME",
+        )[$settings['load_controlling_mode']];
+
         $s = $settings['realtime_clock_sec'];
         $i = $settings['realtime_clock_min'];
         $h = $settings['realtime_clock_hour'];
@@ -89,6 +97,23 @@ class TCPTracer {
                 "charging_or_anti_reverse_mosfet_short" => (bool)($charge_status & 4096),
                 "charging_mosfet_short" => (bool)($charge_status & 8192),
                 "pv_voltage_status" => $pv_volt_status,
+            ),
+            "load_control" => array(
+                "on" => $real_time['load_voltage'] > 0,
+                "mode" => $load_control_mode,
+                "manual_on" => $coils['manual_control_load'],
+                "dusk_duration" => sprintf("%02d:%02d", $settings['working_time_length1_hour'], $settings['working_time_length1_min']),
+                "dawn_duration" => sprintf("%02d:%02d", $settings['working_time_length2_hour'], $settings['working_time_length2_min']),
+                "times" => array(
+                    array(
+                        "on"  => sprintf("%02d:%02d:%02d", $settings['turn_on_timing1_hour'], $settings['turn_on_timing1_min'], $settings['turn_on_timing1_sec']),
+                        "off" => sprintf("%02d:%02d:%02d", $settings['turn_off_timing1_hour'], $settings['turn_off_timing1_min'], $settings['turn_off_timing1_sec']),
+                    ),
+                    array(
+                        "on"  => sprintf("%02d:%02d:%02d", $settings['turn_on_timing2_hour'], $settings['turn_on_timing2_min'], $settings['turn_on_timing2_sec']),
+                        "off" => sprintf("%02d:%02d:%02d", $settings['turn_off_timing2_hour'], $settings['turn_off_timing2_min'], $settings['turn_off_timing2_sec']),
+                    ),
+                ),
             ),
         );
     }
