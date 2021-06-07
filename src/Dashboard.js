@@ -125,14 +125,26 @@ function Dashboard ({ data, dataLog, setLoad = null, schedule = [], onScheduleSe
             <input readOnly id="load_power" value={data.real_time.load_power} />
           </div>
           <div className="data-box">
-            <label htmlFor="manual_control_load">Load Status</label>
+            <label htmlFor="load_status_on">Load Status</label>
             <Icon name="load" />
-            <input readOnly id="manual_control_load" value={data.coils.manual_control_load?"ON":"OFF"} />
+            <input readOnly id="load_status_on" value={data.status.load_control.on?"ON":"OFF"} />
           </div>
-          { setLoad !== null &&
+          <div className="data-box">
+            <label htmlFor="load_control_mode">Control Mode</label>
+            <Icon name="load" />
+            <input readOnly id="load_control_mode" value={data.status.load_control.mode} />
+          </div>
+          { setLoad !== null && data.status.load_control.mode === "MANUAL" &&
             <div style={{ width: "100%", textAlign: "center" }}>
               <button onClick={() => setLoad(true)}>ON</button>
               <button onClick={() => setLoad(false)}>OFF</button>
+            </div>
+          }
+          { data.status.load_control.mode === "TIME" &&
+            <div className="data-box">
+              <label htmlFor="load_control_times">On/Off Times</label>
+              <Icon name="clock" />
+              <input readOnly id="load_control_times" value={`${data.status.load_control.times[0].on} - ${data.status.load_control.times[0].off}`} />
             </div>
           }
         </fieldset>
