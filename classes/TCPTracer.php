@@ -1,5 +1,9 @@
 <?php
 class TCPTracer {
+    /** @var ModbusMaster */
+    private $modbus;
+
+
     /**
      * @param ModbusMaster $modbus
      */
@@ -8,8 +12,16 @@ class TCPTracer {
         $this->modbus = $modbus;
     }
 
-    function setCoilData ($coil, $value) {
+    function setCoilData (int $coil, bool $value) {
         $this->modbus->writeMultipleCoils(1, $coil, [$value]);
+    }
+
+    function setRegister (int $register, int $value) {
+        $this->modbus->writeMultipleRegister(1, $register, [$value], ["INT"]);
+    }
+
+    function setMultipleRegisters (int $first_register, array $values) {
+        $this->modbus->writeMultipleRegister(1, $first_register, $values);
     }
 
     function getAllData () {
@@ -277,8 +289,8 @@ class TCPTracer {
             array_slice($raw_values_2, 3, 2),
             [self::signed_value($raw_values_2[5])],
             array_slice($raw_values_2, 6),
-            [$raw_values_3[0]],
-            self::split_to_bytes(array_slice($raw_values_3, 1, 2)),
+            [$raw_values_3[0]],                                         // 903D
+            self::split_to_bytes(array_slice($raw_values_3, 1, 2)),     // 903E - 903F
             $raw_values_4,
             self::split_to_bytes($raw_values_5),
             $raw_values_6,

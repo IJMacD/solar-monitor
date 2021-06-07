@@ -14,6 +14,9 @@ define("MODBUS_HOST", "HF-EW11");
 // i.e. this line has side-effects
 $scheduler = new TaskScheduler();
 
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: text/plain");
+
 $method = "";
 
 if (isset($_SERVER['REQUEST_URI'])) {
@@ -32,7 +35,6 @@ if ($method === "data") {
 
     try {
         $data = $tracer->json();
-        header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
         echo $data;
     } catch (Exception $e) {
@@ -41,25 +43,46 @@ if ($method === "data") {
     }
 
 } else if ($method === "control") {
+    $modbus = new ModbusMaster(MODBUS_HOST, "TCP");
+    $tracer = new TCPTracer($modbus);
+
+    header("Access-Control-Allow-Origin: *");
+
     if (isset($_REQUEST['load'])) {
 
-        $modbus = new ModbusMaster(MODBUS_HOST, "TCP");
-        $tracer = new TCPTracer($modbus);
-
         $tracer->setCoilData(2, $_REQUEST['load'] === "1" || $_REQUEST['load'] === "on");
-
-        header("Access-Control-Allow-Origin: *");
         echo "done";
+
+    } else if (isset($_REQUEST['coil']) && isset($_REQUEST['value'])) {
+
+        $tracer->setCoilData((int)$_REQUEST['coil'], $_REQUEST['value'] === "1" || $_REQUEST['value'] === "on");
+        echo "done";
+
+    } else if (isset($_REQUEST['register']) && isset($_REQUEST['value'])) {
+        $register = hexdec($_REQUEST['register']);
+
+        $tracer->setRegister($register, (int)$_REQUEST['value']);
+        echo "done";
+
+    } else if (isset($_REQUEST['register_start']) && isset($_REQUEST['values'])) {
+        $register = hexdec($_REQUEST['register_start']);
+
+        $tracer->setMultipleRegisters($register, explode(",", $_REQUEST['values']));
+        echo "done";
+
+    } else {
+
+        header("HTTP/1.1 400 Unrecognized Request");
+        echo "error";
+
     }
 } else if ($method === "schedule") {
     if (isset($_REQUEST['load']) && isset($_REQUEST['time'])) {
 
         $scheduler->schedule($_REQUEST['time'], "set_load", [ $_REQUEST['load'] ]);
 
-        header("Access-Control-Allow-Origin: *");
         echo "done";
     } else {
-        header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
 
         echo json_encode($scheduler->list(), JSON_NUMERIC_CHECK);
