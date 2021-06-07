@@ -30,9 +30,15 @@ if ($method === "data") {
     $modbus = new ModbusMaster(MODBUS_HOST, "TCP");
     $tracer = new TCPTracer($modbus);
 
-    header("Access-Control-Allow-Origin: *");
-    header("Content-Type: application/json");
-    echo $tracer->json();
+    try {
+        $data = $tracer->json();
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+        echo $data;
+    } catch (Exception $e) {
+        header("HTTP/1.1 500 Server Error");
+        echo $e->getMessage();
+    }
 
 } else if ($method === "control") {
     if (isset($_REQUEST['load'])) {
