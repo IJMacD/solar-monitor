@@ -53,7 +53,9 @@ export function SingleGraph ({ log, page, style = null, limits = [] }) {
 
     const labels = page === "temperature" ? ["Controller", "Battery"] : Object.keys(seriesOffset).map(ucFirst);
 
-    return <Graph data={allSeries} labels={labels} duration={duration} style={style} limits={limits} />;
+    const minVal = page === "voltage" ? 11 : (page === "temperature" ? 20 : null);
+
+    return <Graph data={allSeries} labels={labels} duration={duration} style={style} limits={limits} minVal={minVal} />;
 }
 
 /** @typedef {[string, ...number[]]} DataPoint */
@@ -67,8 +69,10 @@ export function SingleGraph ({ log, page, style = null, limits = [] }) {
  * @param {number} [param0.height]
  * @param {import("react").CSSProperties} [param0.style]
  * @param {number[]} [param0.limits]
+ * @param {number} [param0.minVal]
+ * @param {number} [param0.maxVal]
  */
-export function Graph ({ data, duration, labels, width = 500, height = 300, style = null, limits = [] }) {
+export function Graph ({ data, duration, labels, width = 500, height = 300, style = null, limits = [], minVal = null, maxVal = null }) {
     /** @type {import("react").MutableRefObject<HTMLCanvasElement>} */
     const canvasRef = useRef();
 
@@ -83,8 +87,14 @@ export function Graph ({ data, duration, labels, width = 500, height = 300, styl
             canvasRef.current.height = pixelHeight;
 
             const values = data.map(([d, ...values]) => values).flat();
-            const maxVal = Math.ceil(Math.max(...values));
-            const minVal = Math.floor(Math.min(0, ...values));
+
+            if (typeof maxVal !== "number") {
+                maxVal = Math.ceil(Math.max(...values));
+            }
+
+            if (typeof minVal !== "number") {
+                minVal = Math.floor(Math.min(0, ...values));
+            }
 
             const gutterSizeTop = 20 * devicePixelRatio;
             const gutterSizeBottom = gutterSizeTop;
