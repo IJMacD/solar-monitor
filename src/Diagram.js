@@ -168,7 +168,7 @@ export default function Diagram ({ real_time, statistics, coils, discrete, statu
           cy={33.777}
           rx={7.717}
           ry={7.149}
-          fill={coils.manual_control_load?"#ff0":"#fff"}
+          fill={status.load_control.on?"#ff0":"#fff"}
           strokeWidth={0.5}
           strokeLinejoin="bevel"
         />
