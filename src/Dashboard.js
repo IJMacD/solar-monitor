@@ -6,7 +6,7 @@ import States from './States';
 import "./Dashboard.css";
 import { trimNumber } from './util';
 
-function Dashboard ({ data, dataLog, setLoad = null, schedule = [], onScheduleSet = null }) {
+function Dashboard ({ data, dataLog, setLoad = null, api = null, schedule = [], onScheduleSet = null }) {
 
   /**
    * @param {import('react').FormEvent<HTMLFormElement>} e
@@ -132,7 +132,17 @@ function Dashboard ({ data, dataLog, setLoad = null, schedule = [], onScheduleSe
           <div className="data-box">
             <label htmlFor="load_control_mode">Control Mode</label>
             <Icon name="load" />
-            <input readOnly id="load_control_mode" value={data.status.load_control.mode} />
+            {
+              api ?
+                <select id="load_control_mode" value={data.status.load_control.mode} onChange={e => api.setControlMode(e.target.value)}>
+                  <option>MANUAL</option>
+                  <option>LIGHT</option>
+                  <option>LIGHT_TIME</option>
+                  <option>TIME</option>
+                </select>
+                :
+                <input readOnly id="load_control_mode" value={data.status.load_control.mode} />
+            }
           </div>
           { setLoad !== null && data.status.load_control.mode === "MANUAL" &&
             <div style={{ width: "100%", textAlign: "center" }}>

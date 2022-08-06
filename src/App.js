@@ -1,16 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { API } from './api';
 import './App.css';
 import Dashboard from './Dashboard';
 import SofaMode from './SofaMode';
 
 const endpoint = process.env.REACT_APP_API_ENDPOINT;
 const isControllable = typeof process.env.REACT_APP_API_ENDPOINT === "string";
+const isVeryControllable = isControllable;
 
 function App() {
-  const [data, setData] = useState(null);
-  const [dataLog, setDataLog] = useState([]);
+  const apiRef = useRef(new API(endpoint));
+  const [ data, setData ] = useState(null);
+  const [ dataLog, setDataLog ] = useState([]);
   const [ schedule, setSchedule ] = useState([]);
   const [ page, setPage ] = useState("dashboard");
+
+  const fetchData = () => apiRef.current.fetchData().then(setData);
 
   // Fetch Live Data
   useEffect(() => {
@@ -23,9 +28,10 @@ function App() {
 
   // Fetch Schedule Data
   useEffect(() => {
-    fetchScheduleData();
+    const cb = () => apiRef.current.fetchScheduleData().then(setSchedule);
+    cb();
 
-    const interval_id = setInterval(fetchScheduleData, 5 * 60 * 1000);
+    const interval_id = setInterval(cb, 6 * 60 * 1000);
 
     return () => clearInterval(interval_id);
   }, []);
@@ -35,15 +41,18 @@ function App() {
     if (data) {
       const newPoint = [
         data.status.date_time,
+        // PV: positive values are *in* to device
         data.real_time.pv_voltage,
         data.real_time.pv_current,
         data.real_time.pv_power,
+        // Battery: positive values are *out* of device
         data.real_time.battery_voltage,
-        -data.statistics.net_battery_current,
-        -data.statistics.net_battery_current * data.real_time.battery_voltage,
+        data.statistics.net_battery_current,
+        data.statistics.net_battery_current * data.real_time.battery_voltage,
         data.real_time.load_voltage,
-        -data.real_time.load_current,
-        -data.real_time.load_power,
+        // Load: positive values are *out* of device
+        data.real_time.load_current,
+        data.real_time.load_power,
         data.real_time.charger_temperature,
         data.real_time.remote_battery_temperature,
       ];
@@ -62,37 +71,19 @@ function App() {
 
   return (
     <div className="App">
-      <Dashboard data={data} dataLog={dataLog} setLoad={isControllable ? setLoad : null} schedule={schedule} onScheduleSet={scheduleLoad} />
+      <Dashboard
+        data={data}
+        dataLog={dataLog}
+        setLoad={isControllable ? on => apiRef.current.setLoad(on).then(fetchData) : null}
+        api={isVeryControllable ? apiRef.current : null}
+        schedule={schedule}
+        onScheduleSet={apiRef.current.scheduleLoad}
+      />
       <button onClick={() => setPage("sofa")}>Sofa</button>
       <p>Clone on <a href="https://github.com/IJMacD/epsolar-app">GitHub</a>.</p>
     </div>
   );
 
-  function fetchData() {
-    fetch(`${endpoint}/data`).then(r => r.json()).then(setData);
-  }
-
-  function fetchScheduleData() {
-    fetch(`${endpoint}/schedule`).then(r => r.json()).then(setSchedule);
-  }
-
-  function setLoad (on) {
-    const body = new URLSearchParams({ load: on ? "1" : "0" });
-
-    fetch(`${endpoint}/control`, {
-      method: "post",
-      body
-    }).then(fetchData);
-  }
-
-  function scheduleLoad (date, load) {
-    const body = new URLSearchParams({ time: `${date}:00+08:00`, load });
-
-    fetch(`${endpoint}/schedule`, {
-      method: "post",
-      body
-    }).then(fetchScheduleData);
-  }
 }
 
 export default App;
