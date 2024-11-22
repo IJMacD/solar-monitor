@@ -1,1 +1,0 @@
-rsync -av --exclude=.git --exclude=.gitignore --exclude=.vscode --exclude=deploy.sh . admin@nas:/volume1/Web/solar
