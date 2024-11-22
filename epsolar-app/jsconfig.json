@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "checkJs": true,
+        "lib": [
+            "dom",
+            "es2019"
+        ],
+        "jsx": "react-jsx"
+    }
+}

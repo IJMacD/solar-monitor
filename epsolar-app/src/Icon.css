@@ -1,0 +1,11 @@
+.Icon {
+    width: 0.8em;
+    height: 0.8em;
+}
+
+@media (min-width: 1200px) {
+    .Icon {
+        width: 1em;
+        height: 1em;
+    }
+}
