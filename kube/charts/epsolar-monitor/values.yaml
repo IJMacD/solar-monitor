@@ -1,0 +1,21 @@
+hostname: "nas.home.ijmacd.com"
+image:
+  name: nas.home.ijmacd.com:5143/ijmacd/epsolar-monitor
+replicaCount: 1
+resources:
+  requests:
+    memory: 32Mi
+    cpu: 10m
+  limits:
+    memory: 32Mi
+ingress:
+  enabled: false
+  path: "/solar"
+  tls:
+    enabled: false
+gateway:
+  enabled: true
+  parentRef:
+    name: gateway
+    sectionName: https
+  path: "/solar"

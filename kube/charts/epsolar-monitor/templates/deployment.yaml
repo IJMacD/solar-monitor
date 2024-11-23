@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-monitor-app"
+  labels:
+    app.kubernetes.io/name: "{{ .Chart.Name }}"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/version: "{{ .Chart.Version }}"
+    app.kubernetes.io/component: monitor-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
+      app.kubernetes.io/component: monitor-app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: "{{ .Release.Name }}"
+        app.kubernetes.io/component: monitor-app
+    spec:
+      containers:
+        - name: monitor-app
+          image: "{{ .Values.image.name }}:{{ .Values.appVersion | default .Chart.Version }}"
+          ports:
+            - name: web
+              containerPort: 80
+          env:
+            - name: MODBUS_HOST
+              value: 192.168.64.178
+          # { {- if .Values.local.enabled }}
+          # volumeMounts:
+          #   - mountPath: /usr/share/nginx/html/index.html
+          #     name: index-dev
+          #     subPath: index.html
+          # { {- end }}
+          resources: 
+            {{- .Values.resources | toYaml | nindent 12 }}
+      # { {- if .Values.epsolar.local.enabled }}
+      # volumes:
+      #   - name: index-dev
+      #     configMap:
+      #       name: {{.Release.Name }}-epsolar-index-dev
+      # { {- end }}

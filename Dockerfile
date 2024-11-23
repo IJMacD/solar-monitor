@@ -1,7 +1,7 @@
 FROM php:7.4.33-apache AS base
-WORKDIR /app
-COPY ./server/composer.json ./server/composer.lock /app/
-COPY ./server/classes /app/classes
+WORKDIR /var/www/html
+COPY ./server/composer.json ./server/composer.lock ./
+COPY ./server/classes ./classes
 
 FROM base AS vendor
 RUN apt-get update && \
@@ -21,7 +21,6 @@ RUN ["yarn", "build"]
 FROM base AS final
 RUN a2enmod rewrite
 RUN docker-php-ext-install sockets
-COPY --from=vendor /app/vendor /var/www/html/vendor
+COPY --from=vendor /var/www/html/vendor /var/www/html/vendor
 COPY --from=build /app/build /var/www/html/app/
-COPY ./server/classes /var/www/html/classes
 COPY ./server/index.php ./server/.htaccess /var/www/html/
